@@ -1,0 +1,43 @@
+name: Module proposal
+description: Propose a DOI-backed decision module or external integration.
+title: "[Module]: "
+body:
+  - type: input
+    id: doi
+    attributes:
+      label: Backing Zenodo DOI and version
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Decision capability and mission relevance
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Inputs, units, outputs, and uncertainty
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Assumptions, refusal conditions, and human-review triggers
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Reproduction and field-validation status
+    validations:
+      required: true
+  - type: checkboxes
+    id: claims
+    attributes:
+      label: Evidence boundary
+      options:
+        - label: I understand that publication or formal proof does not establish product or field validity.
+          required: true
+        - label: I have the right to submit all included code, data, and documentation.
+          required: true

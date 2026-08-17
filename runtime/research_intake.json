@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "standard": "VOS-RESEARCH-INTAKE-1",
+  "wave_date": "2026-08-15",
+  "canon_commit": "792f246ef46c7316cd5353cf83874ab454bbe02a",
+  "records": [
+    {
+      "abbreviation": "SBB",
+      "run_id": "Run-125",
+      "doi": "10.5281/zenodo.21971052",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Thermodynamic control",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "ICC",
+      "run_id": "Run-126",
+      "doi": "10.5281/zenodo.21971043",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Alignment and information governance",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "PCR",
+      "run_id": "Run-127",
+      "doi": "10.5281/zenodo.21971046",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Stewardship risk",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "RC",
+      "run_id": "Run-128",
+      "doi": "10.5281/zenodo.21971047",
+      "successor_version_candidate": "0.2.2-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Symbiotic information exchange",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "ACC",
+      "run_id": "Run-129",
+      "doi": "10.5281/zenodo.21971041",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Monitoring integrity",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "SSBC",
+      "run_id": "Run-130",
+      "doi": "10.5281/zenodo.21971057",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Restoration",
+      "spine_admitted": false
+    },
+    {
+      "abbreviation": "CSHC",
+      "run_id": "Run-131",
+      "doi": "10.5281/zenodo.21971042",
+      "successor_version_candidate": "0.2.1-release-reconciled",
+      "state": "BACKLOG_NO_WRAPPER",
+      "product_line": "Decision stability",
+      "spine_admitted": false
+    }
+  ],
+  "successor_publication_state": "PUBLISHED_VERIFIED",
+  "external_mutation": false
+}

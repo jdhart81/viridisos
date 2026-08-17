@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use the ViridisOS reference runtime, cite this software and the DOI-backed research used by the relevant module."
+title: "ViridisOS Reference Runtime"
+type: software
+version: 0.1.3
+authors:
+  - family-names: Hart
+    given-names: Justin D.
+    orcid: "https://orcid.org/0009-0008-3082-2482"
+repository-code: "https://github.com/jdhart81/viridisos"
+license: Apache-2.0
