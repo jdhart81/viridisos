@@ -94,7 +94,17 @@ Next modules by product-tree priority: **Tempo** (Run-060), **Restoration/Nuclea
 
 | Method | Route | Body | Returns |
 |---|---|---|---|
+## API Inputs
+
+The `inputs` dictionary required by `/preview`, `/certify`, and `/verify` depends on the module:
+- **restoration**: `{ "key": "...", "area_ha": number, "degraded": boolean }`
+- **afforestation**: `{ "key": "...", "species": string, "density": number }`
+- **harmonization**: `{ "key": "...", "sigma_tot": number }`
+- **mutualist**: `{ "key": "...", "marginal_costs": number }`
+- **carbon_continuity**: `{ "key": "...", "delta_mu": number }`
+
 | GET | `/modules` | — | registered modules + state |
+| GET | `/research-kernels` | — | dictionary of canon research kernels |
 | POST | `/modules/{id}/preview` | `{inputs}` | module output (no certificate) |
 | POST | `/modules/{id}/certify` | `{subject, inputs}` | issued certificate (409 if BLOCKED) |
 | POST | `/certificates/verify` | `{certificate_id, module_id, inputs}` | `{valid}` |
