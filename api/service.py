@@ -80,6 +80,8 @@ def dispatch(service: ViridisOSService, method: str, path: str, body: Optional[d
     except CertifyBlocked as e:
         return 409, {"error": "blocked", "detail": str(e)}      # A-1/A-3 → 409 Conflict
     except KeyError as e:
-        return 404, {"error": "not found", "detail": str(e)}
+        if "no such module" in str(e):
+            return 404, {"error": "not found", "detail": str(e)}
+        return 400, {"error": "bad request", "detail": f"missing input: {str(e)}"}
     except (ValueError, TypeError) as e:
         return 400, {"error": "bad request", "detail": str(e)}
