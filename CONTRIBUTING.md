@@ -34,14 +34,23 @@ You must have the right to make that contribution.
 
 ## Sign your commits (DCO)
 
-Pull requests from forks need a `Signed-off-by` line on every commit, matching the commit author's email:
+Pull requests from forks require an author-matching `Signed-off-by` trailer on
+each contribution commit.
 
     Signed-off-by: Your Name <you@example.com>
 
 `git commit -s` adds it, and `git rebase --signoff origin/main` fixes an existing branch. Signing off
 certifies the Developer Certificate of Origin 1.1 (https://developercertificate.org): you wrote the
-change, or you have the right to submit it under this repository's license. The DCO check blocks
-unsigned commits.
+change, or you have the right to submit it under this repository's license.
+
+An unsigned merge that only incorporates upstream history is permitted when a
+maintainer verifies that its tree exactly matches a conflict-free automatic merge
+of its parents and all non-merge contribution commits satisfy this requirement.
+Merge commits containing conflict resolutions or additional changes require an
+author-matching sign-off.
+
+CI currently checks non-merge commits only; a passing check does not replace this
+merge review.
 
 ## License of contributions
 
