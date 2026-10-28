@@ -48,7 +48,7 @@ def make_handler(service: ViridisOSService):
         def do_POST(self):
             try:
                 body = self._body()
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, UnicodeDecodeError):
                 return self._respond(400, {"error": "invalid json"})
             status, payload = dispatch(service, "POST", self.path, body)
             self._respond(status, payload)

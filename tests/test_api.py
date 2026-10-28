@@ -60,6 +60,76 @@ def test_unknown_route_404():
     status, _ = dispatch(_service(), "GET", "/nope", None)
     assert status == 404
 
+def test_missing_input_preview_returns_400():
+    status, body = dispatch(
+        _service(),
+        "POST",
+        "/modules/mutualist/preview",
+        {"inputs": {"rho": 1.5}},
+    )
+    assert status == 400
+    assert "sigma" in body["detail"]
+
+
+def test_missing_input_certify_returns_400():
+    status, body = dispatch(
+        _service(),
+        "POST",
+        "/modules/mutualist/certify",
+        {"subject": "p", "inputs": {"rho": 1.5}},
+    )
+    assert status == 400
+    assert "sigma" in body["detail"]
+
+
+def test_unknown_module_still_returns_404():
+    status, body = dispatch(
+        _service(),
+        "POST",
+        "/modules/nope/preview",
+        {"inputs": INPUTS},
+    )
+    assert status == 404
+    assert body["error"] == "not found"
+
+
+def test_non_object_body_returns_400():
+    status, body = dispatch(
+        _service(),
+        "POST",
+        "/modules/mutualist/preview",
+        [1, 2],
+    )
+    assert status == 400
+    assert body["error"] == "bad request"
+    assert body["detail"] == "body must be a JSON object"
+
+
+def test_non_object_inputs_returns_400():
+    svc = _service()
+
+    # Issue a valid certificate first.
+    s1, cert = dispatch(
+        svc,
+        "POST",
+        "/modules/mutualist/certify",
+        {"subject": "p1", "inputs": INPUTS},
+    )
+    assert s1 == 200
+
+    status, body = dispatch(
+        svc,
+        "POST",
+        "/certificates/verify",
+        {
+            "certificate_id": cert["certificate_id"],
+            "module_id": "mutualist",
+            "inputs": [1, 2],
+        },
+    )
+    assert status == 400
+    assert body["error"] == "bad request"
+    assert body["detail"] == "inputs must be a JSON object"
 
 if __name__ == "__main__":
     import traceback
