@@ -92,6 +92,32 @@ do not count as outside adoption.
 That's it — the runtime handles provenance, the certifier handles the moat, the API exposes it.
 Next modules by product-tree priority: **Tempo** (Run-060), **Restoration/Nucleation** (Run-061).
 
+## Part of the Viridis open-source commons
+
+The mathematics behind each module lives in [Viridis Canon](https://github.com/jdhart81/viridis-canon), and [ProofLens](https://github.com/jdhart81/prooflens) explains what a Lean statement says before you read the proof.
+
+This project is one of a connected set of open tools from Viridis. Each stands on its own; together they run from field evidence to checked decisions.
+
+**Conservation commons**
+
+- [VergeCommon](https://github.com/jdhart81/verge-common): community conservation co-ops with consent-based land mapping, field evidence and group decisions
+- [Dendritic Forest Management (DFM)](https://github.com/jdhart81/hdfm-framework): compare forest-retention options around roads and waterways, with traceable inputs and portable reports
+- [Global Soil Intelligence Project (GSIP)](https://github.com/global-soil-intelligence/gsip): contribute soil observations and explore open soil maps with explicit uncertainty
+
+**Verifiable science**
+
+- [Viridis Canon](https://github.com/jdhart81/viridis-canon): machine-checked Lean 4 mathematics for ecological decisions, with a DOI for every result
+- **ViridisOS** (this repository): open reference runtime for DOI-backed decision modules and recomputable results
+- [Viridis Research](https://github.com/jdhart81/viridis-research): the nightly public research record, each claim labeled by what a verifier actually checked
+- [ProofLens](https://github.com/jdhart81/prooflens): see what a Lean statement means before reading the proof
+
+**Agent tools**
+
+- [Viridis Agent Fleet](https://github.com/jdhart81/viridis-agent-fleet): open-source MCP agents with deterministic, auditable cores
+- [EnergyAI MCP](https://github.com/jdhart81/energyai-mcp): energy-planning estimates and incentive sources for AI agents
+
+Browse every project on the [Viridis profile](https://github.com/jdhart81). If this one is useful to you, a star helps other people find it.
+
 ## API
 
 | Method | Route | Body | Returns |
