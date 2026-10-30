@@ -24,6 +24,34 @@ from certification.certifier import Certifier
 from certification.standard import STANDARD
 
 
+SOURCE_URL = "https://github.com/jdhart81/viridisos"
+PRODUCT_URL = "https://viridisconservation.com/viridisos"
+
+
+def share_block(kind: str, module_id: str, certificate_id: str = "") -> dict:
+    """What travels with a result so whoever receives it can check it and run their own.
+
+    Kept outside the certificate itself, so it never changes what is hashed or signed.
+    """
+    block = {
+        "source": SOURCE_URL,
+        "run_your_own": PRODUCT_URL,
+        "license": "Apache-2.0",
+    }
+    if kind == "certificate":
+        block["verify"] = {
+            "how": "POST /certificates/verify with certificate_id, module_id and the same inputs, "
+                   "or recompute the module from the open source. Free, no account needed.",
+            "certificate_id": certificate_id,
+            "module_id": module_id,
+        }
+        block["note"] = ("Certificates from this reference runtime are self-rooted development "
+                         "certificates, not authoritative Viridis certificates.")
+    else:
+        block["note"] = "This is a preview, not a certificate. Recompute it from the open source."
+    return block
+
+
 class ViridisOSService:
     def __init__(self, registry: ModuleRegistry, certifier: Optional[Certifier] = None,
                  research_registry: Optional[CanonKernelRegistry] = None):
@@ -96,7 +124,8 @@ def dispatch(service: ViridisOSService, method: str, path: str, body: Optional[d
                     "detail": "inputs must be a JSON object",
                 }
 
-            return 200, service.preview(parts[1], inputs)
+            result = service.preview(parts[1], inputs)
+            return 200, {**result, "share": share_block("preview", parts[1])}
 
         if method == "POST" and len(parts) == 3 and parts[0] == "modules" and parts[2] == "certify":
             inputs = body.get("inputs", {})
@@ -106,11 +135,12 @@ def dispatch(service: ViridisOSService, method: str, path: str, body: Optional[d
                     "detail": "inputs must be a JSON object",
                 }
 
-            return 200, service.certify(
+            cert = service.certify(
                 parts[1],
                 body.get("subject", ""),
                 inputs,
             )
+            return 200, {**cert, "share": share_block("certificate", parts[1], cert["certificate_id"])}
 
         if method == "POST" and path == "/certificates/verify":
             inputs = body.get("inputs", {})

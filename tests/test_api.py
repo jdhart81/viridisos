@@ -131,6 +131,32 @@ def test_non_object_inputs_returns_400():
     assert body["error"] == "bad request"
     assert body["detail"] == "inputs must be a JSON object"
 
+
+def test_preview_carries_share_block():
+    status, body = dispatch(_service(), "POST", "/modules/mutualist/preview", {"inputs": INPUTS})
+    assert status == 200
+    share = body["share"]
+    assert share["source"].startswith("https://github.com/")
+    assert share["run_your_own"].startswith("https://")
+    assert "not a certificate" in share["note"]
+    assert "verify" not in share
+
+
+def test_certificate_share_block_stays_outside_the_certificate():
+    svc = _service()
+    status, body = dispatch(svc, "POST", "/modules/mutualist/certify", {"subject": "p1", "inputs": INPUTS})
+    assert status == 200
+    share = body.pop("share")
+    assert share["verify"]["certificate_id"] == body["certificate_id"]
+    assert share["verify"]["module_id"] == "mutualist"
+    assert "not authoritative" in share["note"]
+    # The certificate itself is unchanged: same dict the certifier issued, no share key.
+    issued = svc._issued[body["certificate_id"]].to_dict()
+    assert "share" not in issued and issued == body
+    s2, res = dispatch(svc, "POST", "/certificates/verify",
+                       {"certificate_id": body["certificate_id"], "module_id": "mutualist", "inputs": INPUTS})
+    assert s2 == 200 and res["valid"] is True
+
 if __name__ == "__main__":
     import traceback
     fns = [g for n, g in sorted(globals().items()) if n.startswith("test_") and callable(g)]

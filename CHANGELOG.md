@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Preview and certify API responses now carry a `share` block beside the
+  result: the open source link, how anyone can verify or recompute it for free,
+  and where to run their own. It sits outside the certificate, so nothing that
+  is hashed or signed changes.
+
 ## 0.1.3 — successor DOI intake refresh
 
 - Binds the seven-paper read-only research intake to verified public Canon
