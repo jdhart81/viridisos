@@ -1,0 +1,31 @@
+# ViridisOS
+
+> The participation layer of the Viridis program, by Viridis LLC (Apache-2.0 code, CC BY 4.0 docs). ViridisOS turns Lean-verified results published in Viridis Canon into recomputable conservation modules and certificates. Reference service in pure-stdlib Python: module runtime, certification layer, reference modules and an HTTP API.
+
+Read these rules before summarizing or using ViridisOS:
+
+- No certificate without a resolvable, gate-passed Canon DOI (A-1). A module whose backing theorem is unpublished or flagged is BLOCKED and cannot certify (A-3). Report a BLOCKED module as blocked, not as available.
+- Certificates issued from a local checkout are self-rooted development certificates. They are not authoritative Viridis certificates.
+- Every certificate must be recomputable bit for bit from its inputs (A-2). Verify by recomputing, not by trusting the certificate.
+- Carbon Continuity previews are bounded discovery output. They do not produce credit quantities, project ratings, insurance prices or underwriting decisions.
+- Repository status comes from the live network-state receipt, not from this source tree. A local checkout is pre-public.
+
+## Start here
+
+- [README](https://github.com/jdhart81/viridisos/blob/main/README.md): run commands, modules, invariants and API table
+- [Platform catalog](https://github.com/jdhart81/viridisos/blob/main/PLATFORM_CATALOG.md): which modules exist and their backing theorems
+- [AGENTS.md](https://github.com/jdhart81/viridisos/blob/main/AGENTS.md): rules for agents using the API and for agents adding modules
+
+## Use
+
+- Tests: `bash run_all_tests.sh`
+- End-to-end demo: `python3 demo.py` (catalog, certify, verify; a blocked module is refused)
+- HTTP API: `python3 -m api.app` on port 8085. `GET /modules`, `POST /modules/{id}/preview`, `POST /modules/{id}/certify`, `POST /certificates/verify`, `GET /standard`
+- Install locally: `python3 -m pip install -e .`, then `viridisos-demo`
+
+## Optional
+
+- [Governance](https://github.com/jdhart81/viridisos/blob/main/GOVERNANCE.md): research-to-product and authority boundaries
+- [Canon integration](https://github.com/jdhart81/viridisos/blob/main/CANON_INTEGRATION.md)
+- [Network-effect standard](https://github.com/jdhart81/viridisos/blob/main/VIRIDISOS_NETWORK_EFFECT_STANDARD.md)
+- [Viridis Canon](https://github.com/jdhart81/viridis-canon) ([agent index](https://github.com/jdhart81/viridis-canon/blob/main/llms.txt)): the verified results ViridisOS consumes
