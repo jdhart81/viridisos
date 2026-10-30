@@ -19,6 +19,17 @@ not this source tree. A local candidate remains V0 `PRE_PUBLIC`; it becomes V1
 `PUBLIC_FOUNDATION` only after the exact standalone repository and release are
 authorized, publicly readable, and independently re-cloned and tested.
 
+## Status, AI use and citation
+
+Reference software, not peer reviewed. Modules carry `empirical_validation: NOT_VALIDATED`
+from the canon; a certificate here checks a computation against its DOI-backed Lean result, not
+an ecological outcome. Much of the code was written with AI coding assistants (mainly Claude by
+Anthropic, some OpenAI Codex), as the commit history shows; Justin D. Hart (Viridis LLC, ORCID
+[0009-0008-3082-2482](https://orcid.org/0009-0008-3082-2482)) reviews changes and is the accountable
+author. Code is Apache-2.0 ([LICENSE](LICENSE)); documentation terms are in
+[DOCUMENTATION_LICENSE.md](DOCUMENTATION_LICENSE.md). Cite with [CITATION.cff](CITATION.cff). This
+repository has no Zenodo record yet.
+
 ## Run
 
 ```bash
