@@ -62,21 +62,56 @@ def test_afforestation_certifies_live():
 
 # --- Harmonization / GHT ----------------------------------------------------
 
-def test_harmonization_clearing_price_and_wu_wei_dividend():
-    out = harm_engine.harmonize(marginal_costs=[1.0, 3.0, 2.0], command_overhead=5.0,
-                                bandwidth=0.5, ib_bound=1.0)
-    assert out["shadow_price"] == 3.0
-    assert out["decentralization_cheaper"] is True        # 3 stewards: central 15 > 5 decentralized
-    assert out["coordination_within_ib"] is True
+def test_harmonization_matches_the_canon_witness():
+    # Canon non-vacuity instance: a = b = (1, 1), X = 0 gives λ* = 1, x* = (0, 0), J(x*) = 1.
+    out = harm_engine.harmonize(curvatures=[1.0, 1.0], ideals=[1.0, 1.0], target=0.0)
+    assert out["shadow_price"] == 1.0
+    assert out["allocation"] == [0.0, 0.0]
+    assert out["market_clears"] is True
+    assert out["total_cost"] == 1.0
+
+
+def test_harmonization_clears_and_beats_other_feasible_allocations():
+    a, b, X = [1.0, 2.0, 4.0], [10.0, 6.0, 3.0], 12.0
+    out = harm_engine.harmonize(curvatures=a, ideals=b, target=X)
+    # λ* = (19 − 12) / (1 + 0.5 + 0.25) = 4
+    assert out["shadow_price"] == 4.0
+    assert out["allocation"] == [6.0, 4.0, 2.0]
+    assert out["market_clears"] is True
+    best = out["total_cost"]
+    for y in ([4.0, 4.0, 4.0], [6.0, 3.0, 3.0], [12.0, 0.0, 0.0], [7.0, 4.0, 1.0]):
+        assert abs(sum(y) - X) < 1e-12
+        assert harm_engine.total_cost(a, b, y) >= best
+
+
+def test_harmonization_wrong_price_does_not_clear():
+    a, b = [1.0, 1.0], [1.0, 1.0]
+    alloc = [harm_engine.best_response(ai, bi, 0.0) for ai, bi in zip(a, b)]
+    assert sum(alloc) != 0.0
+
+
+def test_harmonization_rejects_invalid_inputs():
+    for kwargs in (
+        {"curvatures": [], "ideals": [], "target": 0.0},
+        {"curvatures": [1.0, 0.0], "ideals": [1.0, 1.0], "target": 0.0},
+        {"curvatures": [1.0], "ideals": [1.0, 2.0], "target": 0.0},
+        {"curvatures": [1.0], "ideals": [float("nan")], "target": 0.0},
+    ):
+        try:
+            harm_engine.harmonize(**kwargs)
+            assert False, f"expected invalid input to fail: {kwargs}"
+        except ValueError:
+            pass
 
 
 def test_harmonization_certifies_live():
     m = HarmonizationModule(resolver=LIVE)
     assert m.certify_ready() is True
     c = Certifier(resolver=LIVE)
-    inputs = {"marginal_costs": [1.0, 2.5], "command_overhead": 4.0, "bandwidth": 0.3, "ib_bound": 1.0}
+    inputs = {"curvatures": [1.0, 2.5], "ideals": [3.0, 1.0], "target": 2.0}
     cert = c.issue(m, subject="region-2", inputs=inputs)
     assert c.verify(cert, m, inputs) is True
+    assert c.verify(cert, m, {**inputs, "target": 2.5}) is False
 
 
 if __name__ == "__main__":

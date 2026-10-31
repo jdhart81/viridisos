@@ -9,7 +9,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 |---|---|---|---|---|
 | **restoration** — nucleation planting design (Θ go/no-go + n*) | Restoration | Forest Nucleation (FNT) | `20982979` | 🟢 LIVE |
 | **afforestation** — cubic optimal-seeding law + site-prep lever | Restoration | Afforestation Stewardship (AST) | `21168224` | 🟢 LIVE |
-| **harmonization** — thermodynamic shadow-price coordination | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
+| **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | pending | 🔴 PREVIEW / BLOCKED |
 
