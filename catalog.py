@@ -13,6 +13,7 @@ from modules.restoration import RestorationModule
 from modules.afforestation import AfforestationModule
 from modules.harmonization import HarmonizationModule
 from modules.carbon_continuity import CarbonContinuityModule
+from modules.anytime_alarm import AnytimeAlarmModule
 
 # module class + a note on backing status (informational; the resolver is the real gate)
 CATALOG = [
@@ -21,6 +22,7 @@ CATALOG = [
     AfforestationModule,   # AST  (21168224) — published → LIVE
     HarmonizationModule,   # GHT  (21168212) — published → LIVE
     CarbonContinuityModule,  # CCAW (21855690) — re-certified by the engine 2026-10-29 → LIVE
+    AnytimeAlarmModule,    # ACC  (21971041) — Lean zero-sorry, canon 'working' → PREVIEW
 ]
 
 

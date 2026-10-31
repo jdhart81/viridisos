@@ -12,6 +12,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
+| **anytime-alarm** — has a monitored 0/1 signal really changed (false alarms ≤ α at every sample size) | Monitoring integrity | Anytime Change Certificate (ACC, Run-129) | `21971041` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
 canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
@@ -24,6 +25,15 @@ sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.
 Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
 PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
 Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
+
+**Anytime Alarm is PREVIEW:** its Lean proofs check (zero sorry, standard axioms;
+`anytime_change_mixture_martingale`, `anytime_change_ville_certificate`,
+`change_component_dominance_and_penalty`, `bounded_overshoot_expected_delay`), but the canon
+catalog lists the package as `working`, not gate-passed, and DOI `21971041` is not in the bundled
+canon index. Previews run; certification is refused (A-1). It runs the mixture likelihood-ratio
+monitor with the fixed change-time prior 1/(k(k+1)) and alarms when the evidence reaches 1/α, so
+P(ever a false alarm) ≤ α if, before any change, the 0/1 observations are iid Bernoulli(p0).
+It also reports an expected-delay upper bound, which assumes Wald integrability.
 
 ## What LIVE means
 
