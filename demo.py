@@ -27,7 +27,7 @@ def main() -> None:
 
     # LIVE module: Restoration (backed by published FNT).
     restoration = registry.get("restoration")
-    inputs = {"sigma": 1.5, "delta_mu": 1.0}     # Θ = 1.5 > 1 → cluster (RED)
+    inputs = {"sigma": 1.5, "delta_mu": 1.0, "cluster_size": 2.0}  # n* = 1 → GO
     cert = certifier.issue(restoration, subject="parcel-DEMO", inputs=inputs)
     print("\n== Self-rooted development certificate (Restoration / FNT) ==")
     print(json.dumps(cert.to_dict(), indent=2, default=str))
