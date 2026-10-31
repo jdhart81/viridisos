@@ -14,7 +14,7 @@ def test_catalog_registers_all_modules():
     registry, certifier = build_platform()
     ids = {m["id"] for m in registry.list_modules()}
     assert {"mutualist", "restoration", "afforestation", "harmonization", "carbon-continuity",
-            "seed-supply", "precautionary-ceiling"} <= ids
+            "seed-supply", "precautionary-ceiling", "dscore-robustness"} <= ids
 
 
 def test_states_reflect_live_canon():
@@ -32,6 +32,8 @@ def test_states_reflect_live_canon():
     assert by_id["seed-supply"]["state"] == "BLOCKED"
     # PCR (21971046): Lean checks, canon status 'working', not in the bundled index → PREVIEW.
     assert by_id["precautionary-ceiling"]["state"] == "BLOCKED"
+    # DSWC (22236741): Lean checks, not in the bundled canon index → PREVIEW.
+    assert by_id["dscore-robustness"]["state"] == "BLOCKED"
 
 
 def test_blocked_module_cannot_certify_via_platform():

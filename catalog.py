@@ -15,6 +15,7 @@ from modules.harmonization import HarmonizationModule
 from modules.carbon_continuity import CarbonContinuityModule
 from modules.seed_supply import SeedSupplyBottleneckModule
 from modules.precautionary_ceiling import PrecautionaryCeilingModule
+from modules.dscore_robustness import DScoreRobustnessModule
 
 # module class + a note on backing status (informational; the resolver is the real gate)
 CATALOG = [
@@ -25,6 +26,7 @@ CATALOG = [
     CarbonContinuityModule,  # CCAW (21855690) — re-certified by the engine 2026-10-29 → LIVE
     SeedSupplyBottleneckModule,  # SSBC (21971057) — Lean zero-sorry, canon 'working' → PREVIEW
     PrecautionaryCeilingModule,  # PCR (21971046) — Lean zero-sorry, canon 'working' → PREVIEW
+    DScoreRobustnessModule,  # DSWC (22236741) — Lean zero-sorry, not in canon index → PREVIEW
 ]
 
 

@@ -14,6 +14,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
 | **seed-supply** — can nursery supply meet planting demand; which sites are short | Restoration | Seed-Source Bottleneck Certificate (SSBC, Run-130) | `21971057` | 🟡 PREVIEW |
 | **precautionary-ceiling** — safe harvest/stocking ceiling from a mean and variance | Stewardship risk | Precautionary Capacity Reserve (PCR, Run-127) | `21971046` | 🟡 PREVIEW |
+| **dscore-robustness** — does a parcel ranking survive disputed weights | Verification & Certification | D-Score Weight-Charter Certificate (DSWC, Run-132) | `22236741` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
 `series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
@@ -51,6 +52,12 @@ non-negative one-period capacity it returns d_α = [μ − σ√((1−α)/α)]�
 probability at most α under every such law, and no higher ceiling has that guarantee. A ceiling set
 from the mean alone has no guarantee. Estimation error in μ and σ, dependence across periods,
 and the choice of α are not covered. The canon's rate-model outputs are not exposed.
+**D-Score Robustness is PREVIEW:** its Lean proofs check (zero sorry; `tv_range_certificate`,
+`strict_rank_stability`), but DOI `22236741` is not in the bundled canon index, and the pinned
+Canon kernel registry predates the DSWC record, so there is no record to bind yet. Previews run;
+certification is refused (A-1). It reports score drift ≤ TV(weights) × range(z), and calls the
+ranking of two parcels robust when their score gap exceeds TV × range of their indicator contrast.
+**The D-Score's ecological validity is not proven**; this is weighted-sum arithmetic only.
 
 ## What LIVE means
 
