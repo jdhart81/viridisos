@@ -7,6 +7,8 @@ they certify for real — no fixture needed.
 
 from __future__ import annotations
 
+import pytest
+
 import sys
 from pathlib import Path
 
@@ -81,20 +83,52 @@ def test_restoration_certifies_live_against_real_canon():
 
 # --- Afforestation / AST ----------------------------------------------------
 
-def test_afforestation_site_prep_cubic_lever():
+def test_afforestation_matches_ast_definitions():
+    """A1/A2: n*, barrier and efficiency are the theorem's definitions; canon witness a=σ=Δμ=C=1."""
+    from modules.afforestation import engine as ast
     m = AfforestationModule(resolver=LIVE)
-    out = m.preview({"sigma": 1.0, "delta_mu": 1.0, "prep": 2.0, "rate": 0.5, "rate_max": 1.0})
-    assert out.values["site_prep_multiplier"] == 8.0     # prep=2 ⇒ ×8 (cubic)
-    assert out.values["seeding_within_ib_ceiling"] is True
+    out = m.preview({"sigma": 1.0, "delta_mu": 1.0}).values
+    assert abs(out["critical_nucleus_n_star"] - (2 / 3) ** 3) < 1e-9          # 8/27, not 1
+    assert abs(out["barrier_height"] - 4 / 27) < 1e-9
+    assert abs(out["seeding_efficiency"] - (3 / 2) ** 3) < 1e-9               # 27/8 = C / n*
+    assert abs(out["seeding_efficiency"] * out["critical_nucleus_n_star"] - 1.0) < 1e-9
+    for a, s, d in [(1.0, 1.0, 1.0), (2.0, 0.7, 1.3), (0.5, 3.0, 0.4)]:          # ΔG* = ½·Δμ·n*
+        assert abs(ast.barrier_height(s, d, a) - 0.5 * d * ast.critical_nucleus(s, d, a)) < 1e-9
+
+
+def test_afforestation_proven_levers():
+    """A3: halving σ gives exactly ×8; scaling Δμ by t gives t³."""
+    from modules.afforestation import engine as ast
+    for a, s, d, c in [(1.0, 1.0, 1.0, 1.0), (1.7, 0.9, 2.2, 3.0)]:
+        e = ast.seeding_efficiency(s, d, a, c)
+        assert abs(ast.seeding_efficiency(s / 2, d, a, c) - 8 * e) < 1e-9 * max(1, e)
+        for t in (0.5, 2.0, 3.0):
+            assert abs(ast.seeding_efficiency(s, t * d, a, c) - t ** 3 * e) < 1e-9 * max(1, t ** 3 * e)
+    out = AfforestationModule(resolver=LIVE).preview({"sigma": 2.0, "delta_mu": 1.0}).values
+    assert abs(out["efficiency_if_edge_hostility_halved"] - 8 * out["seeding_efficiency"]) < 1e-9
+
+
+def test_afforestation_has_no_ib_ceiling_and_rejects_bad_inputs():
+    """A4: no Intelligence Bound check in outputs; invalid inputs raise."""
+    from modules.afforestation import engine as ast
+    out = AfforestationModule(resolver=LIVE).preview({"sigma": 1.0, "delta_mu": 1.0}).values
+    assert not any("ib" in k.lower() or "ceiling" in k.lower() for k in out)
+    for bad in [dict(sigma=0, delta_mu=1), dict(sigma=1, delta_mu=-1), dict(sigma=1, delta_mu=float("nan"))]:
+        with pytest.raises(ValueError):
+            ast.plan(**bad)
+    with pytest.raises(ValueError):
+        ast.plan(sigma=1, delta_mu=1, establishment_constant=0)
 
 
 def test_afforestation_certifies_live():
+    """A5: certificate recomputes; tampered input fails verification."""
     m = AfforestationModule(resolver=LIVE)
     assert m.certify_ready() is True
     c = Certifier(resolver=LIVE)
-    inputs = {"sigma": 1.0, "delta_mu": 1.2, "prep": 1.5, "rate": 0.2, "rate_max": 1.0}
+    inputs = {"sigma": 1.0, "delta_mu": 1.2, "shape_factor": 1.5, "establishment_constant": 2.0}
     cert = c.issue(m, subject="stand-3", inputs=inputs)
     assert c.verify(cert, m, inputs) is True
+    assert c.verify(cert, m, {**inputs, "sigma": 0.5}) is False
 
 
 # --- Harmonization / GHT ----------------------------------------------------

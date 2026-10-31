@@ -8,7 +8,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | Module | Line | Backing theorem | DOI | State |
 |---|---|---|---|---|
 | **restoration** — nucleation planting design (critical cluster size n* + go/no-go) | Restoration | Forest Nucleation (FNT) | `20982979` | 🟢 LIVE |
-| **afforestation** — cubic optimal-seeding law + site-prep lever | Restoration | Afforestation Stewardship (AST) | `21168224` | 🟢 LIVE |
+| **afforestation** — seeding efficiency e = C/n* + the proven 8× edge-hostility lever | Restoration | Afforestation Stewardship (AST) | `21168224` | 🟢 LIVE |
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
