@@ -16,5 +16,11 @@
     "fingerprint": "adee00ef31e37108",
     "id": "AST",
     "name": "Afforestation Stewardship Theorem"
+  },
+  {
+    "doi": "10.5281/zenodo.21855690",
+    "fingerprint": "899d3bb1929bac8d",
+    "id": "CCAW",
+    "name": "Carbon Continuity After Wildfire"
   }
 ]

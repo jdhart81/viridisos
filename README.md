@@ -50,8 +50,9 @@ certificates are self-rooted and are not authoritative Viridis certificates.
 
 Five modules, each backed by a canon theorem. Resolved against the live canon — LIVE only if the
 backing theorem is published (A-1): **restoration** (FNT) · **afforestation** (AST) · **harmonization**
-(GHT) are LIVE; **mutualist** (SRPT) and **carbon-continuity** (CCAW) are BLOCKED until their papers
-publish. Carbon Continuity previews are available for bounded commercial discovery, but they do not
+(GHT) and **carbon-continuity** (CCAW) are LIVE; **mutualist** (SRPT) is BLOCKED until its paper
+publishes. Carbon Continuity is the first module re-certified by the current research engine
+(2026-10-29, statement `P2.CarbonContinuity`, PROVEN for the mathematics only). Its outputs do not
 produce credit quantities, project ratings, insurance prices, or underwriting decisions.
 
 ## What's here
@@ -60,7 +61,7 @@ produce credit quantities, project ratings, insurance prices, or underwriting de
 runtime/         L2 — module contract (module.py), registry, provenance, canon resolver
 certification/   L3 — claim, attestation (dev signer), certifier (issue+verify), registry, standard
 modules/mutualist/  reference module wrapping the SRPT (Run-093) kernel
-modules/carbon_continuity/  preview-only wildfire recovery threshold diagnostic
+modules/carbon_continuity/  wildfire recovery threshold diagnostic (re-certified 2026-10-29)
 api/             L4 seam — service + pure dispatch + stdlib HTTP wrapper
 tests/           core tests; every invariant has a failing-if-violated test
 demo.py          full-flow demonstration

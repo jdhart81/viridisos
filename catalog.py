@@ -20,7 +20,7 @@ CATALOG = [
     RestorationModule,     # FNT  (20982979) — published → LIVE
     AfforestationModule,   # AST  (21168224) — published → LIVE
     HarmonizationModule,   # GHT  (21168212) — published → LIVE
-    CarbonContinuityModule,  # CCAW (2026-08-04) — Saturday/canon hold → BLOCKED
+    CarbonContinuityModule,  # CCAW (21855690) — re-certified by the engine 2026-10-29 → LIVE
 ]
 
 
