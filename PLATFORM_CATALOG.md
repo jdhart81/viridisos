@@ -12,6 +12,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | `21327066` | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
+| **seed-supply** — can nursery supply meet planting demand; which sites are short | Restoration | Seed-Source Bottleneck Certificate (SSBC, Run-130) | `21971057` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
 `series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
@@ -31,6 +32,15 @@ sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.
 Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
 PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
 Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
+
+**Seed-Supply is PREVIEW:** its Lean proofs check (zero sorry, standard axioms; theorems
+`seed_routing_common_fraction_eq_min_cut_ratio`, `seed_routing_feasible_iff_cut_conditions`,
+`capacity_outside_active_bottleneck_irrelevant`), but the canon catalog lists the package as
+`working`, not gate-passed, and DOI `21971057` is not in the bundled canon index. Previews run;
+certification is refused (A-1) until the canon admits it. The module computes the largest common
+fulfilment fraction the supply network can deliver, whether full demand is routable, the
+bottleneck site set, and which nurseries cannot help. It makes no claim about seed viability,
+field establishment, legality, cost or timing, and models no per-edge capacities.
 
 ## What LIVE means
 
