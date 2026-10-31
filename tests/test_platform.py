@@ -49,6 +49,12 @@ def test_carbon_continuity_certifies_and_recomputes():
     assert certifier.verify(cert, module, {**inputs, "p": 0.1}) is False
 
 
+def test_byproduct_exchange_is_preview():
+    # RC (21971047): Lean checks, canon status 'working', not in the bundled index → PREVIEW.
+    by_id = {r["id"]: r for r in catalog_status()}
+    assert by_id["byproduct-exchange"]["state"] == "BLOCKED"
+
+
 if __name__ == "__main__":
     import traceback
     fns = [g for n, g in sorted(globals().items()) if n.startswith("test_") and callable(g)]
