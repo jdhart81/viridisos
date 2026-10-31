@@ -3,20 +3,27 @@
 The modules the platform offers, each backed by a canon theorem. Assembled and resolved against
 the **live canon** (`RESEARCH_PIPELINE_v2/canon_fingerprint_index.json`) — a module is LIVE only if
 its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate with
-`python3 viridis_platform.py`. Updated 2026-08-04.
+`python3 viridis_platform.py`. Updated 2026-10-31.
 
 | Module | Line | Backing theorem | DOI | State |
 |---|---|---|---|---|
 | **restoration** — nucleation planting design (critical cluster size n* + go/no-go) | Restoration | Forest Nucleation (FNT) | `20982979` | 🟢 LIVE |
 | **afforestation** — cubic optimal-seeding law + site-prep lever | Restoration | Afforestation Stewardship (AST) | `21168224` | 🟢 LIVE |
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
-| **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
+| **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | `21327066` | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
 
-**Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
-canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
-may run, but the module cannot issue a certificate against an unpublished theorem. Publishing and
-wiring a DOI remains a research-pipeline / Justin-gated action.
+**Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
+`series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
+`working` / `not-canon-admitted` with no hash-bound Comparator certificate, and the DOI is not in the
+bundled canon index, so A-1 refuses to certify. The mathematics is also not yet a product warrant:
+R1 and R3 take the Thermodynamic Uncertainty Relation as a hypothesis (Lean proves the premium floor
+given the TUR bound, not that the bound holds for a natural-capital asset); R6 proves only that
+P·D/(k_B T ln 2) is monotone, and reading it as a limit on hedging relies on the Intelligence Bound,
+which is a conjecture; and the Canon function manifest labels `rho` as a correlation and `sigma` as
+volatility, where the Lean statements use risk aversion and entropy production. Previews may run.
+Unblocking needs Canon admission, a decision on the TUR premise and a corrected manifest, and remains
+a research-pipeline / Justin-gated action.
 
 **Carbon Continuity** is backed by Zenodo 10.5281/zenodo.21855690 and was re-certified on
 2026-10-29 by the Viridis research engine (jdhart81/viridis-research, run `2026-10-29_P2`,
@@ -36,7 +43,7 @@ DOI resolves to a gate-passed canon theorem. See `demo.py` for the Restoration f
 - **Restoration line** (restoration + afforestation) → a Restoration/Afforestation SKU. Highest-ARR
   line in the product tree; ties directly to HDFM and drone-seeding operations.
 - **Governance/OS line** (harmonization) → coordination-pricing module for the ViridisOS platform SKU.
-- **Valuation & Finance** (mutualist) → the risk-pricing module; ships when SRPT publishes.
+- **Valuation & Finance** (mutualist) → the risk-pricing module; ships only after SRPT is Canon-admitted and its TUR premise is resolved.
 - **Risk & Insurance** (carbon-continuity) → a model-scoped wildfire recovery diagnostic. The first
   commercial pilot is decision support only; it does not rate credits, set reserves, price cover, or
   make underwriting decisions.

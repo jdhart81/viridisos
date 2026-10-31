@@ -16,7 +16,7 @@ from modules.carbon_continuity import CarbonContinuityModule
 
 # module class + a note on backing status (informational; the resolver is the real gate)
 CATALOG = [
-    MutualistModule,       # SRPT (Run-093) — pending publication → BLOCKED until DOI minted
+    MutualistModule,       # SRPT (21327066) — published, not Canon-admitted; TUR premise → BLOCKED
     RestorationModule,     # FNT  (20982979) — published → LIVE
     AfforestationModule,   # AST  (21168224) — published → LIVE
     HarmonizationModule,   # GHT  (21168212) — published → LIVE

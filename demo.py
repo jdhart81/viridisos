@@ -35,13 +35,13 @@ def main() -> None:
     print(f"\nLocal recomputation:      {'VALID ✅' if ok else 'INVALID ❌'}")
     print(f"Tampered inputs verify:   {'VALID' if certifier.verify(cert, restoration, {**inputs, 'sigma': 0.1}) else 'INVALID ✅'}")
 
-    # BLOCKED module: Mutualist (SRPT pending) — A-1 refuses.
+    # BLOCKED module: Mutualist (SRPT not Canon-admitted) — A-1 refuses.
     mutualist = registry.get("mutualist")
     try:
         certifier.issue(mutualist, subject="p", inputs={"rho": 1, "sigma": 1e-20, "sigma_tot": 2e-20, "r_c": -0.1})
         print("\nMutualist certified (unexpected!)")
     except CertifyBlocked:
-        print("\nMutualist refused to certify ✅ — backing theorem (SRPT) not yet published (A-1).")
+        print("\nMutualist refused to certify ✅ — backing theorem (SRPT) not Canon-admitted (A-1).")
 
 
 if __name__ == "__main__":
