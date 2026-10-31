@@ -25,18 +25,55 @@ LIVE = CanonResolver()   # reads the live canon index
 
 # --- Restoration / FNT ------------------------------------------------------
 
-def test_restoration_broadcast_fails_above_threshold():
-    hi = rest_engine.design(sigma=2.0, delta_mu=1.0)   # Θ=2 → RED
-    lo = rest_engine.design(sigma=0.3, delta_mu=1.0)   # Θ=0.3 → GREEN
-    assert hi["recommendation"] == "RED" and hi["broadcast_fails"] is True
-    assert lo["recommendation"] == "GREEN" and lo["broadcast_fails"] is False
+def test_restoration_matches_the_canon_witness():
+    # Canon witness (Δμ, a, σ) = (1, 1, 3/2): r* = 1, n* = 1, ΔG* = 1/2.
+    out = rest_engine.design(sigma=1.5, delta_mu=1.0, shape_factor=1.0)
+    assert out["critical_radius_r_star"] == 1.0
+    assert out["critical_nucleus_n_star"] == 1.0
+    assert out["barrier_height"] == 0.5
+
+
+def test_restoration_n_star_keeps_the_shape_factor():
+    # n* = (2aσ/(3Δμ))³, not (σ/Δμ)³: at σ = Δμ = a = 1 that is 8/27, not 1.
+    out = rest_engine.design(sigma=1.0, delta_mu=1.0)
+    assert abs(out["critical_nucleus_n_star"] - 8 / 27) < 1e-9
+    doubled = rest_engine.design(sigma=1.0, delta_mu=1.0, shape_factor=2.0)
+    assert abs(doubled["critical_nucleus_n_star"] - 64 / 27) < 1e-9   # a enters cubically: ×8
+
+
+def test_restoration_r_star_is_the_barrier_top():
+    sigma, delta_mu, a = 2.0, 0.7, 1.3
+    r_star = rest_engine.critical_radius(sigma, delta_mu, a)
+    G = lambda r: -delta_mu * r ** 3 + a * sigma * r ** 2
+    for k in range(0, 400):
+        r = k * r_star / 100.0
+        assert G(r) <= G(r_star) + 1e-12
+    assert abs(G(r_star) - rest_engine.barrier_height(sigma, delta_mu, a)) < 1e-12
+
+
+def test_restoration_go_no_go_compares_cluster_to_n_star():
+    n_star = rest_engine.critical_nucleus(3.0, 1.0)          # (2·3/3)³ = 8
+    assert abs(n_star - 8.0) < 1e-9
+    assert rest_engine.design(3.0, 1.0, cluster_size=7.9)["go_no_go"] == "NO_GO"
+    assert rest_engine.design(3.0, 1.0, cluster_size=8.0)["go_no_go"] == "GO"
+    assert "go_no_go" not in rest_engine.design(3.0, 1.0)
+    assert "recommendation" not in rest_engine.design(3.0, 1.0)   # old Θ cut-offs are gone
+
+
+def test_restoration_rejects_invalid_inputs():
+    for args in ((0.0, 1.0), (1.0, 0.0), (1.0, -1.0), (float("nan"), 1.0)):
+        try:
+            rest_engine.design(*args)
+            assert False, f"expected invalid input to fail: {args}"
+        except ValueError:
+            pass
 
 
 def test_restoration_certifies_live_against_real_canon():
     m = RestorationModule(resolver=LIVE)
     assert m.state().value == "READY"           # FNT DOI 20982979 is in the canon index
     c = Certifier(resolver=LIVE)
-    inputs = {"sigma": 1.5, "delta_mu": 1.0}
+    inputs = {"sigma": 1.5, "delta_mu": 1.0, "cluster_size": 2.0}
     cert = c.issue(m, subject="site-9", inputs=inputs)
     assert cert.claim.backing_doi == "10.5281/zenodo.20982979"
     assert c.verify(cert, m, inputs) is True

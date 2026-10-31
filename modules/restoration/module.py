@@ -18,14 +18,20 @@ FNT_BACKING = Backing(
 
 class RestorationModule(Module):
     id = "restoration"
-    name = "Restoration — nucleation planting design (Θ go/no-go + n*)"
+    name = "Restoration — nucleation planting design (critical cluster size n* + go/no-go)"
     line = "Restoration"
-    version = "0.1.0"
+    version = "0.2.0"
     backing = FNT_BACKING
 
     def units(self) -> dict:
-        return {"nucleation_number": "dimensionless", "critical_nucleus_n_star": "patch-size",
-                "recommendation": "GREEN|AMBER|RED"}
+        return {"critical_radius_r_star": "cube root of trees", "critical_nucleus_n_star": "trees",
+                "barrier_height": "model energy units", "edge_to_suitability_ratio": "dimensionless",
+                "cluster_size": "trees", "cluster_reaches_n_star": "bool", "go_no_go": "GO|NO_GO"}
 
     def compute(self, inputs: dict) -> dict:
-        return engine.design(sigma=float(inputs["sigma"]), delta_mu=float(inputs["delta_mu"]))
+        return engine.design(
+            sigma=inputs["sigma"],
+            delta_mu=inputs["delta_mu"],
+            shape_factor=inputs.get("shape_factor", 1.0),
+            cluster_size=inputs.get("cluster_size"),
+        )
