@@ -12,6 +12,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
+| **dscore-robustness** — does a parcel ranking survive disputed weights | Verification & Certification | D-Score Weight-Charter Certificate (DSWC, Run-132) | `22236741` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
 canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
@@ -24,6 +25,13 @@ sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.
 Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
 PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
 Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
+
+**D-Score Robustness is PREVIEW:** its Lean proofs check (zero sorry; `tv_range_certificate`,
+`strict_rank_stability`), but DOI `22236741` is not in the bundled canon index, and the pinned
+Canon kernel registry predates the DSWC record, so there is no record to bind yet. Previews run;
+certification is refused (A-1). It reports score drift ≤ TV(weights) × range(z), and calls the
+ranking of two parcels robust when their score gap exceeds TV × range of their indicator contrast.
+**The D-Score's ecological validity is not proven**; this is weighted-sum arithmetic only.
 
 ## What LIVE means
 
