@@ -7,7 +7,6 @@ they certify for real — no fixture needed.
 
 from __future__ import annotations
 
-import pytest
 
 import sys
 from pathlib import Path
@@ -83,6 +82,14 @@ def test_restoration_certifies_live_against_real_canon():
 
 # --- Afforestation / AST ----------------------------------------------------
 
+def _raises(exc, fn, *a, **k):
+    try:
+        fn(*a, **k)
+    except exc:
+        return True
+    raise AssertionError(f"expected {exc.__name__}")
+
+
 def test_afforestation_matches_ast_definitions():
     """A1/A2: n*, barrier and efficiency are the theorem's definitions; canon witness a=σ=Δμ=C=1."""
     from modules.afforestation import engine as ast
@@ -114,10 +121,8 @@ def test_afforestation_has_no_ib_ceiling_and_rejects_bad_inputs():
     out = AfforestationModule(resolver=LIVE).preview({"sigma": 1.0, "delta_mu": 1.0}).values
     assert not any("ib" in k.lower() or "ceiling" in k.lower() for k in out)
     for bad in [dict(sigma=0, delta_mu=1), dict(sigma=1, delta_mu=-1), dict(sigma=1, delta_mu=float("nan"))]:
-        with pytest.raises(ValueError):
-            ast.plan(**bad)
-    with pytest.raises(ValueError):
-        ast.plan(sigma=1, delta_mu=1, establishment_constant=0)
+        _raises(ValueError, ast.plan, **bad)
+    _raises(ValueError, ast.plan, sigma=1, delta_mu=1, establishment_constant=0)
 
 
 def test_afforestation_certifies_live():
