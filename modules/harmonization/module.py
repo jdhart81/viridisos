@@ -16,19 +16,19 @@ GHT_BACKING = Backing(
 
 class HarmonizationModule(Module):
     id = "harmonization"
-    name = "Harmonization — thermodynamic shadow-price coordination"
+    name = "Harmonization — single-price coordination toward a shared target"
     line = "Governance / OS Modules"
-    version = "0.1.0"
+    version = "0.2.0"
     backing = GHT_BACKING
 
     def units(self) -> dict:
-        return {"shadow_price": "cost/unit", "wu_wei_dividend": "cost saved",
-                "decentralization_cheaper": "bool", "coordination_within_ib": "bool"}
+        return {"shadow_price": "cost per unit of effort", "allocation": "effort units per steward",
+                "total": "effort units", "target": "effort units", "market_clears": "bool",
+                "total_cost": "cost units"}
 
     def compute(self, inputs: dict) -> dict:
         return engine.harmonize(
-            marginal_costs=[float(x) for x in inputs["marginal_costs"]],
-            command_overhead=float(inputs.get("command_overhead", 1.0)),
-            bandwidth=float(inputs.get("bandwidth", 0.0)),
-            ib_bound=float(inputs.get("ib_bound", 1.0)),
+            curvatures=inputs["curvatures"],
+            ideals=inputs["ideals"],
+            target=inputs["target"],
         )
