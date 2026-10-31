@@ -13,15 +13,21 @@ from modules.restoration import RestorationModule
 from modules.afforestation import AfforestationModule
 from modules.harmonization import HarmonizationModule
 from modules.carbon_continuity import CarbonContinuityModule
+from modules.seed_supply import SeedSupplyBottleneckModule
+from modules.precautionary_ceiling import PrecautionaryCeilingModule
+from modules.dscore_robustness import DScoreRobustnessModule
 from modules.anytime_alarm import AnytimeAlarmModule
 
 # module class + a note on backing status (informational; the resolver is the real gate)
 CATALOG = [
-    MutualistModule,       # SRPT (Run-093) — pending publication → BLOCKED until DOI minted
+    MutualistModule,       # SRPT (21327066) — published, not Canon-admitted; TUR premise → BLOCKED
     RestorationModule,     # FNT  (20982979) — published → LIVE
     AfforestationModule,   # AST  (21168224) — published → LIVE
     HarmonizationModule,   # GHT  (21168212) — published → LIVE
     CarbonContinuityModule,  # CCAW (21855690) — re-certified by the engine 2026-10-29 → LIVE
+    SeedSupplyBottleneckModule,  # SSBC (21971057) — Lean zero-sorry, canon 'working' → PREVIEW
+    PrecautionaryCeilingModule,  # PCR (21971046) — Lean zero-sorry, canon 'working' → PREVIEW
+    DScoreRobustnessModule,  # DSWC (22236741) — Lean zero-sorry, not in canon index → PREVIEW
     AnytimeAlarmModule,    # ACC  (21971041) — Lean zero-sorry, canon 'working' → PREVIEW
 ]
 

@@ -17,6 +17,16 @@
   "carbon-continuity-after-wildfire": {
     "module_id": "carbon-continuity",
     "decision_tree_paths": ["risk-insurance"],
+    "disposition": "MODULE_CATALOG_RECONCILIATION_REQUIRED"
+  },
+  "series-ssbc-paperformalization-certificate": {
+    "module_id": "seed-supply",
+    "decision_tree_paths": ["restoration"],
+    "disposition": "MODULE_BLOCKED_CANON_ADMISSION_REQUIRED"
+  },
+  "series-pcr-paperformalization-targets": {
+    "module_id": "precautionary-ceiling",
+    "decision_tree_paths": ["stewardship-risk"],
     "disposition": "MODULE_BLOCKED_CANON_ADMISSION_REQUIRED"
   },
   "series-acc-paperformalization-nullmartingale": {

@@ -44,6 +44,21 @@ def test_existing_modules_are_bound_without_promoting_working_records():
         assert "RECONCILIATION_REQUIRED" in row.disposition or "ADMISSION_REQUIRED" in row.disposition
 
 
+def test_bound_disposition_matches_module_state():
+    # A binding may say MODULE_BLOCKED_* only while the bound module is actually BLOCKED.
+    # LIVE modules on records Canon has not admitted stay MODULE_CATALOG_RECONCILIATION_REQUIRED.
+    from viridis_platform import catalog_status
+    states = {row["id"]: row["state"] for row in catalog_status()}
+    for row in CanonKernelRegistry().records():
+        if not row.module_id:
+            continue
+        assert row.module_id in states, row.module_id
+        if states[row.module_id] == "READY":
+            assert not row.disposition.startswith("MODULE_BLOCKED"), row.record_id
+        else:
+            assert row.disposition.startswith("MODULE_BLOCKED"), row.record_id
+
+
 def test_sync_never_activates_a_new_verified_record():
     row = {
         "record_id": "example", "title": "Example", "path": "Example.lean",

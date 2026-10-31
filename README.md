@@ -50,8 +50,9 @@ certificates are self-rooted and are not authoritative Viridis certificates.
 
 Five modules, each backed by a canon theorem. Resolved against the live canon — LIVE only if the
 backing theorem is published (A-1): **restoration** (FNT) · **afforestation** (AST) · **harmonization**
-(GHT) and **carbon-continuity** (CCAW) are LIVE; **mutualist** (SRPT) is BLOCKED until its paper
-publishes. Carbon Continuity is the first module re-certified by the current research engine
+(GHT) and **carbon-continuity** (CCAW) are LIVE; **mutualist** (SRPT, 21327066) stays BLOCKED: its
+paper is published, but the record is not Canon-admitted and its key results assume the
+Thermodynamic Uncertainty Relation (see `PLATFORM_CATALOG.md`). Carbon Continuity is the first module re-certified by the current research engine
 (2026-10-29, statement `P2.CarbonContinuity`, PROVEN for the mathematics only). Its outputs do not
 produce credit quantities, project ratings, insurance prices, or underwriting decisions.
 
