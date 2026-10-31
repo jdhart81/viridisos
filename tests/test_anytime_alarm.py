@@ -147,13 +147,18 @@ def test_rejects_invalid_inputs():
 INPUTS = {"observations": [1, 0, 1, 1, 0, 1, 1, 1], "p0": 0.2, "p1": 0.6, "alpha": 0.05}
 
 
-def test_ships_as_preview_against_the_bundled_canon():
-    m = AnytimeAlarmModule(resolver=CanonResolver())
-    assert m.state().value == "BLOCKED"                    # DOI not in the bundled index
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
+    assert AnytimeAlarmModule(resolver=CanonResolver()).state().value == "READY"
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = AnytimeAlarmModule(resolver=CanonResolver(entries={}))
+    assert m.state().value == "BLOCKED"                    # DOI not in this canon (A-1 fail-closed)
     assert m.preview(INPUTS).values["alarm_index"] == 7
     try:
-        Certifier(resolver=CanonResolver()).issue(m, subject="plot-7", inputs=INPUTS)
-        assert False, "expected CertifyBlocked while the DOI is not gate-passed"
+        Certifier(resolver=CanonResolver(entries={})).issue(m, subject="plot-7", inputs=INPUTS)
+        assert False, "expected CertifyBlocked while the DOI is not in the canon"
     except CertifyBlocked:
         pass
 
