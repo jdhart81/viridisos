@@ -8,12 +8,29 @@ from runtime.module import Module, Backing
 from runtime.canon_resolver import CanonResolver
 from . import engine
 
-# Backing theorem: SRPT (Run-093). DOI is a placeholder until the SRPT deposit is minted;
-# it must resolve to a gate-passed canon entry for the module to certify (A-1). Wire the
-# real DOI when SRPT is published; until then the module is BLOCKED unless the resolver is
-# given this entry (which is exactly the A-1/A-3 behavior we want).
+# Backing theorem: SRPT (Run-093), published as Zenodo 10.5281/zenodo.21327066 and recorded
+# in Viridis Canon as `series-symbioticriskpremium` (series/SymbioticRiskPremium.lean).
+#
+# The module stays BLOCKED. Publication is not the gate; the DOI is deliberately absent from
+# `runtime/bundled_canon_index.json`, so A-1 refuses to certify. Reasons it is not ready:
+#   * Canon lists the record as status=working, integrity=not-canon-admitted, with no
+#     hash-bound Comparator certificate (verification_coverage HOLD,
+#     LEDGER_ENTITY_NOT_CERTIFIED), and the Canon function manifest is BLOCKED pending an
+#     accepted product warrant.
+#   * R1 risk_premium_tur_floor and R3 diversification_wall_residual_positive take the
+#     Thermodynamic Uncertainty Relation as a hypothesis (`hTUR`). Lean proves the floor
+#     *given* the TUR bound for the asset; it does not establish that the bound holds for a
+#     natural-capital asset, which is what this module would price.
+#   * R6 mutualist_ib_ceiling only proves monotonicity of P·D/(k_B T ln 2); reading it as a
+#     limit on hedging relies on the Intelligence Bound, which is a conjecture, not a theorem.
+#   * The Canon manifest (viridis-canon os/functions/mutualist/function.json) mislabels the
+#     inputs: it calls `rho` an observed correlation and `sigma` asset volatility, while the
+#     Lean statements use rho as the risk-aversion coefficient and Sigma as entropy
+#     production. The manifest must be corrected before any runner is published.
+# Unblocking needs Canon admission, a decision on the TUR premise, and the manifest fix;
+# it is a research-pipeline / Justin-gated action, never a change to this file alone.
 SRPT_BACKING = Backing(
-    doi="10.5281/zenodo.SRPT-PENDING",
+    doi="10.5281/zenodo.21327066",
     lean_module="SymbioticRiskPremium",
     aristotle_id="run-093-srpt",
     verified=True,
