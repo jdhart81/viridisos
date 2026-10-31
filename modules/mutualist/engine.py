@@ -11,6 +11,10 @@ this kernel computes (each traces to a Lean-verified statement in the canon):
   R5  Contagion/Mutualism transition: sign of the coupling covariance r_c decides all —
       r_c < 0 mutualistic (portfolio effect), r_c > 0 contagious (systemic risk).
 
+R1 and R3 are proved in Lean *given* the Thermodynamic Uncertainty Relation as a hypothesis
+(`hTUR`); the kernel computes the floor, it does not show the TUR holds for the asset. The
+Canon record (10.5281/zenodo.21327066) is not Canon-admitted, so the module stays BLOCKED.
+
 Pure functions, stdlib only, deterministic — so certificates are recomputable (A-2).
 Physical magnitudes (k_B) are inputs/constants, not proven values (honest scope).
 """
