@@ -7,11 +7,30 @@ from runtime.module import Backing, Module
 from . import engine
 
 
-# The Lean theorem passed the Aristotle and local zero-sorry audits, but the
-# paper has not yet been published into the canon. The pending DOI therefore
-# keeps certification fail-closed while previews remain available.
+# Backing: Carbon Continuity After Wildfire, Zenodo 10.5281/zenodo.21855690 (version
+# 0.2.0-formal), theorem Viridis.CarbonContinuity.carbon_continuity_threshold_iff in
+# viridis-canon releases/2026-08-08/Carbon_Continuity_After_Wildfire (Lean source sha256
+# 899d3bb1929bac8d1ab6b760caffac428de115489e6fc7c1b2752e0769a77fc1).
+#
+# Re-certified 2026-10-29 by the Viridis research engine (jdhart81/viridis-research,
+# run 2026-10-29_P2, task P2-T001): sealed statement P2.CarbonContinuity, label PROVEN,
+# not closed by the triviality probe, Lean v4.28.0 with Mathlib 8f9d9cff. The statement:
+# for a, d in [0, 1) and r, p > 0, a strictly positive two-pool portfolio that one cycle
+# does not shrink exists exactly when (1 - a)(1 - d) <= r * p. This is what
+# engine.evaluate_threshold computes. PROVEN covers the mathematics only; coefficients and
+# ecological outcomes stay ASSUMED and are the user's to justify.
+RECERTIFICATION = {
+    "engine_run": "viridis-research/runs/2026-10-29_P2",
+    "statement_id": "P2.CarbonContinuity",
+    "label": "PROVEN",
+    "trivial": False,
+    "lean_toolchain": "v4.28.0",
+    "mathlib_rev": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+    "covers": "the threshold mathematics only, not coefficients or field outcomes",
+}
+
 CARBON_CONTINUITY_BACKING = Backing(
-    doi="10.5281/zenodo.CARBON-CONTINUITY-PENDING",
+    doi="10.5281/zenodo.21855690",
     lean_module="CarbonContinuity",
     aristotle_id="40c58299-efeb-4cad-b332-2525b7c8d6d1",
     verified=True,

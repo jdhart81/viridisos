@@ -11,12 +11,19 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **afforestation** — cubic optimal-seeding law + site-prep lever | Restoration | Afforestation Stewardship (AST) | `21168224` | 🟢 LIVE |
 | **harmonization** — thermodynamic shadow-price coordination | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
-| **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | pending | 🔴 PREVIEW / BLOCKED |
+| **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
 
-**Why Mutualist and Carbon Continuity are BLOCKED:** each theorem has formal evidence but is not yet
-published to the canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1
-behavior: previews may run, but neither module can issue a certificate against an unpublished
-theorem. Publishing and wiring a DOI remains a research-pipeline / Justin-gated action.
+**Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
+canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
+may run, but the module cannot issue a certificate against an unpublished theorem. Publishing and
+wiring a DOI remains a research-pipeline / Justin-gated action.
+
+**Carbon Continuity** is backed by Zenodo 10.5281/zenodo.21855690 and was re-certified on
+2026-10-29 by the Viridis research engine (jdhart81/viridis-research, run `2026-10-29_P2`,
+sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.28.0 with pinned
+Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
+PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
+Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
 
 ## What LIVE means
 
