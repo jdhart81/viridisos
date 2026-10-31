@@ -12,6 +12,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
+| **precautionary-ceiling** — safe harvest/stocking ceiling from a mean and variance | Stewardship risk | Precautionary Capacity Reserve (PCR, Run-127) | `21971046` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
 canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
@@ -24,6 +25,16 @@ sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.
 Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
 PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
 Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
+
+**Precautionary Ceiling is PREVIEW:** its Lean proofs check (zero sorry, standard axioms;
+theorems `capacityFloor_violation_prob_le`, `positive_floor_sharp_two_point_counterexample`,
+`mean_only_plugin_arbitrarily_unsafe`), but the canon catalog lists the package as `working`, not
+gate-passed, and DOI `21971046` is not in the bundled canon index. Previews run; certification is
+refused (A-1) until the canon admits it. From the true mean and standard deviation of a
+non-negative one-period capacity it returns d_α = [μ − σ√((1−α)/α)]₊, which is exceeded with
+probability at most α under every such law, and no higher ceiling has that guarantee. A ceiling set
+from the mean alone has no guarantee. Estimation error in μ and σ, dependence across periods,
+and the choice of α are not covered. The canon's rate-model outputs are not exposed.
 
 ## What LIVE means
 
