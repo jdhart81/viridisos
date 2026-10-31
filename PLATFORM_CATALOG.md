@@ -12,6 +12,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **harmonization** — single-price coordination toward a shared target | Governance / OS | Gaian Harmonization (GHT) | `21168212` | 🟢 LIVE |
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | pending | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
+| **corridor-priority** — which corridor link to protect first (exact pivotal probabilities) | Restoration | Pivotal Corridor Stewardship (PCS, Run-124) | `22665554` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** its theorem has formal evidence but is not yet published to the
 canon, so its DOI does not resolve to a gate-passed entry. This is correct A-1 behavior: previews
@@ -24,6 +25,15 @@ sealed statement `P2.CarbonContinuity`, PROVEN, not trivially closable, Lean v4.
 Mathlib). It is the first module whose backing has been re-checked under the current pipeline.
 PROVEN covers the threshold mathematics, not the coefficients or any field outcome. Restoration,
 Afforestation and Harmonization are next in that re-certification queue (P2-T003 to P2-T005).
+
+**Corridor Priority is PREVIEW:** its Lean proof checks (zero sorry;
+`reliability_derivative_eq_pivotal_probability`, `pivotal_probability_independent_of_own_probability`,
+`local_linear_budget_gain_le_best_ratio`), but DOI `22665554` is not in the bundled canon index,
+and the pinned Canon kernel registry predates the PCS record. Previews run; certification is
+refused (A-1). For a graph of at most 16 links that survive **independently**, it computes the
+exact probability that two terminal cores stay connected and each link's pivotal probability,
+which equals the reliability gradient. It then ranks links (optionally per unit cost).
+Correlated failures are not covered.
 
 ## What LIVE means
 
