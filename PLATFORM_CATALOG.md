@@ -15,6 +15,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **seed-supply** — can nursery supply meet planting demand; which sites are short | Restoration | Seed-Source Bottleneck Certificate (SSBC, Run-130) | `21971057` | 🟡 PREVIEW |
 | **precautionary-ceiling** — safe harvest/stocking ceiling from a mean and variance | Stewardship risk | Precautionary Capacity Reserve (PCR, Run-127) | `21971046` | 🟡 PREVIEW |
 | **dscore-robustness** — does a parcel ranking survive disputed weights | Verification & Certification | D-Score Weight-Charter Certificate (DSWC, Run-132) | `22236741` | 🟡 PREVIEW |
+| **anytime-alarm** — has a monitored 0/1 signal really changed (false alarms ≤ α at every sample size) | Monitoring integrity | Anytime Change Certificate (ACC, Run-129) | `21971041` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
 `series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
@@ -58,6 +59,14 @@ Canon kernel registry predates the DSWC record, so there is no record to bind ye
 certification is refused (A-1). It reports score drift ≤ TV(weights) × range(z), and calls the
 ranking of two parcels robust when their score gap exceeds TV × range of their indicator contrast.
 **The D-Score's ecological validity is not proven**; this is weighted-sum arithmetic only.
+**Anytime Alarm is PREVIEW:** its Lean proofs check (zero sorry, standard axioms;
+`anytime_change_mixture_martingale`, `anytime_change_ville_certificate`,
+`change_component_dominance_and_penalty`, `bounded_overshoot_expected_delay`), but the canon
+catalog lists the package as `working`, not gate-passed, and DOI `21971041` is not in the bundled
+canon index. Previews run; certification is refused (A-1). It runs the mixture likelihood-ratio
+monitor with the fixed change-time prior 1/(k(k+1)) and alarms when the evidence reaches 1/α, so
+P(ever a false alarm) ≤ α if, before any change, the 0/1 observations are iid Bernoulli(p0).
+It also reports an expected-delay upper bound, which assumes Wald integrability.
 
 ## What LIVE means
 

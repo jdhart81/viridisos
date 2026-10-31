@@ -1437,9 +1437,11 @@
       "canon_integrity": "not-canon-admitted",
       "research_state": "CANON_WORKING",
       "kernel_state": "NOT_ELIGIBLE",
-      "disposition": "BACKLOG_CANON_ADMISSION_REQUIRED",
-      "module_id": "",
-      "decision_tree_paths": [],
+      "disposition": "MODULE_BLOCKED_CANON_ADMISSION_REQUIRED",
+      "module_id": "anytime-alarm",
+      "decision_tree_paths": [
+        "continuity-monitoring"
+      ],
       "certification_authority": false
     },
     {
