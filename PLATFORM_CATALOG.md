@@ -13,6 +13,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **mutualist** — natural-capital risk-premium pricing | Valuation & Finance | Symbiotic Risk-Premium (SRPT) | `21327066` | 🔴 BLOCKED |
 | **carbon-continuity** — wildfire recovery threshold diagnostic | Risk & Insurance | Carbon Continuity After Wildfire (CCAW) | `21855690` | 🟢 LIVE |
 | **seed-supply** — can nursery supply meet planting demand; which sites are short | Restoration | Seed-Source Bottleneck Certificate (SSBC, Run-130) | `21971057` | 🟡 PREVIEW |
+| **precautionary-ceiling** — safe harvest/stocking ceiling from a mean and variance | Stewardship risk | Precautionary Capacity Reserve (PCR, Run-127) | `21971046` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
 `series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
@@ -41,6 +42,15 @@ certification is refused (A-1) until the canon admits it. The module computes th
 fulfilment fraction the supply network can deliver, whether full demand is routable, the
 bottleneck site set, and which nurseries cannot help. It makes no claim about seed viability,
 field establishment, legality, cost or timing, and models no per-edge capacities.
+**Precautionary Ceiling is PREVIEW:** its Lean proofs check (zero sorry, standard axioms;
+theorems `capacityFloor_violation_prob_le`, `positive_floor_sharp_two_point_counterexample`,
+`mean_only_plugin_arbitrarily_unsafe`), but the canon catalog lists the package as `working`, not
+gate-passed, and DOI `21971046` is not in the bundled canon index. Previews run; certification is
+refused (A-1) until the canon admits it. From the true mean and standard deviation of a
+non-negative one-period capacity it returns d_α = [μ − σ√((1−α)/α)]₊, which is exceeded with
+probability at most α under every such law, and no higher ceiling has that guarantee. A ceiling set
+from the mean alone has no guarantee. Estimation error in μ and σ, dependence across periods,
+and the choice of α are not covered. The canon's rate-model outputs are not exposed.
 
 ## What LIVE means
 
