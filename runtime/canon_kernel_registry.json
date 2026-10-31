@@ -773,7 +773,7 @@
       "canon_integrity": "not-canon-admitted",
       "research_state": "CANON_WORKING",
       "kernel_state": "NOT_ELIGIBLE",
-      "disposition": "MODULE_BLOCKED_CANON_ADMISSION_REQUIRED",
+      "disposition": "MODULE_CATALOG_RECONCILIATION_REQUIRED",
       "module_id": "carbon-continuity",
       "decision_tree_paths": [
         "risk-insurance"

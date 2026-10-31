@@ -17,7 +17,7 @@
   "carbon-continuity-after-wildfire": {
     "module_id": "carbon-continuity",
     "decision_tree_paths": ["risk-insurance"],
-    "disposition": "MODULE_BLOCKED_CANON_ADMISSION_REQUIRED"
+    "disposition": "MODULE_CATALOG_RECONCILIATION_REQUIRED"
   },
   "series-ssbc-paperformalization-certificate": {
     "module_id": "seed-supply",
