@@ -157,13 +157,18 @@ def test_rejects_invalid_inputs():
 INPUTS = {**SERIES, "survival": [0.5, 0.25]}
 
 
-def test_ships_as_preview_against_the_bundled_canon():
-    m = CorridorPriorityModule(resolver=CanonResolver())
-    assert m.state().value == "BLOCKED"                     # DOI not in the bundled index
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
+    assert CorridorPriorityModule(resolver=CanonResolver()).state().value == "READY"
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = CorridorPriorityModule(resolver=CanonResolver(entries={}))
+    assert m.state().value == "BLOCKED"                     # DOI not in this canon (A-1 fail-closed)
     assert m.preview(INPUTS).values["reliability"] == 0.125
     try:
-        Certifier(resolver=CanonResolver()).issue(m, subject="corridor-1", inputs=INPUTS)
-        assert False, "expected CertifyBlocked while the DOI is not gate-passed"
+        Certifier(resolver=CanonResolver(entries={})).issue(m, subject="corridor-1", inputs=INPUTS)
+        assert False, "expected CertifyBlocked while the DOI is not in the canon"
     except CertifyBlocked:
         pass
 

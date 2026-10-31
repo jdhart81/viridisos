@@ -179,15 +179,20 @@ def test_rejects_invalid_inputs():
 
 # --- gating ------------------------------------------------------------------------------
 
-def test_ships_as_preview_against_the_bundled_canon():
-    m = SeedSupplyBottleneckModule(resolver=CanonResolver())
-    assert m.state().value == "BLOCKED"                    # DOI not in the bundled index
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
+    assert SeedSupplyBottleneckModule(resolver=CanonResolver()).state().value == "READY"
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = SeedSupplyBottleneckModule(resolver=CanonResolver(entries={}))
+    assert m.state().value == "BLOCKED"                    # DOI not in this canon (A-1 fail-closed)
     out = m.preview({"demands": [1, 1], "supplies": [0.1, 1.9], "edges": PRIVATE})
     assert out.values["common_fulfillment_fraction"] == 0.1
     try:
-        Certifier(resolver=CanonResolver()).issue(
+        Certifier(resolver=CanonResolver(entries={})).issue(
             m, subject="nursery-net", inputs={"demands": [1], "supplies": [1], "edges": [[0, 0]]})
-        assert False, "expected CertifyBlocked while the DOI is not gate-passed"
+        assert False, "expected CertifyBlocked while the DOI is not in the canon"
     except CertifyBlocked:
         pass
 

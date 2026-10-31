@@ -127,13 +127,18 @@ INPUTS = {"reference_weights": [0.9, 0.1], "alternative_weights": [0.8, 0.2],
           "parcel_a": [1.0, 0.0], "parcel_b": [0.0, 1.0]}
 
 
-def test_ships_as_preview_against_the_bundled_canon():
-    m = DScoreRobustnessModule(resolver=CanonResolver())
-    assert m.state().value == "BLOCKED"                     # DOI not in the bundled index
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
+    assert DScoreRobustnessModule(resolver=CanonResolver()).state().value == "READY"
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = DScoreRobustnessModule(resolver=CanonResolver(entries={}))
+    assert m.state().value == "BLOCKED"                     # DOI not in this canon (A-1 fail-closed)
     assert m.preview(INPUTS).values["ranking_robust"] is True
     try:
-        Certifier(resolver=CanonResolver()).issue(m, subject="parcels", inputs=INPUTS)
-        assert False, "expected CertifyBlocked while the DOI is not gate-passed"
+        Certifier(resolver=CanonResolver(entries={})).issue(m, subject="parcels", inputs=INPUTS)
+        assert False, "expected CertifyBlocked while the DOI is not in the canon"
     except CertifyBlocked:
         pass
 

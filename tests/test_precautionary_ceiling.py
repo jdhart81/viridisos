@@ -137,15 +137,20 @@ def test_rejects_invalid_inputs():
 
 # --- gating ------------------------------------------------------------------------------
 
-def test_ships_as_preview_against_the_bundled_canon():
-    m = PrecautionaryCeilingModule(resolver=CanonResolver())
-    assert m.state().value == "BLOCKED"                    # DOI not in the bundled index
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
+    assert PrecautionaryCeilingModule(resolver=CanonResolver()).state().value == "READY"
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = PrecautionaryCeilingModule(resolver=CanonResolver(entries={}))
+    assert m.state().value == "BLOCKED"                    # DOI not in this canon (A-1 fail-closed)
     assert m.preview({"mean_capacity": 10, "capacity_sd": 1, "alpha": 0.2}).values[
         "precautionary_ceiling"] == 8.0
     try:
-        Certifier(resolver=CanonResolver()).issue(
+        Certifier(resolver=CanonResolver(entries={})).issue(
             m, subject="stand-1", inputs={"mean_capacity": 10, "capacity_sd": 1, "alpha": 0.2})
-        assert False, "expected CertifyBlocked while the DOI is not gate-passed"
+        assert False, "expected CertifyBlocked while the DOI is not in the canon"
     except CertifyBlocked:
         pass
 

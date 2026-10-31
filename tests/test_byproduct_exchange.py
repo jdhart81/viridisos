@@ -173,15 +173,23 @@ def test_invalid_inputs_rejected():
 
 # --- gating: PREVIEW against the bundled canon, certify-then-tamper under a stand-in -------
 
-def test_preview_runs_but_certification_is_refused():
+def test_bundled_canon_admits_the_backing_doi():
+    # Admitted to the bundled canon index by Justin's decision, 2026-10-31.
     m = ByproductExchangeModule()
+    assert m.state().value == "READY"
+    cert = Certifier().issue(m, subject="park-1", inputs={**FEASIBLE, "total_flow": 2})
+    assert cert.claim.backing_doi == DOI
+
+
+def test_unadmitted_canon_previews_but_refuses_certification():
+    m = ByproductExchangeModule(resolver=CanonResolver(entries={}))
     assert m.backing.doi == DOI
     assert m.state().value == "BLOCKED"
     out = m.preview({**FEASIBLE, "total_flow": 2})
     assert out.values["corridor_nonempty"] is True
     assert out.provenance.backing_doi == DOI
     try:
-        Certifier().issue(m, subject="park-1", inputs={**FEASIBLE, "total_flow": 2})
+        Certifier(resolver=CanonResolver(entries={})).issue(m, subject="park-1", inputs={**FEASIBLE, "total_flow": 2})
         assert False, "expected CertifyBlocked"
     except CertifyBlocked:
         pass

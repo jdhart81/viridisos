@@ -27,12 +27,12 @@ CATALOG = [
     AfforestationModule,   # AST  (21168224) — published → LIVE
     HarmonizationModule,   # GHT  (21168212) — published → LIVE
     CarbonContinuityModule,  # CCAW (21855690) — re-certified by the engine 2026-10-29 → LIVE
-    SeedSupplyBottleneckModule,  # SSBC (21971057) — Lean zero-sorry, canon 'working' → PREVIEW
-    PrecautionaryCeilingModule,  # PCR (21971046) — Lean zero-sorry, canon 'working' → PREVIEW
-    DScoreRobustnessModule,  # DSWC (22236741) — Lean zero-sorry, not in canon index → PREVIEW
-    AnytimeAlarmModule,    # ACC  (21971041) — Lean zero-sorry, canon 'working' → PREVIEW
-    CorridorPriorityModule,  # PCS (22665554) — Lean zero-sorry, not in canon index → PREVIEW
-    ByproductExchangeModule,  # RC (21971047) — Lean zero-sorry, canon 'working' → PREVIEW
+    SeedSupplyBottleneckModule,  # SSBC (21971057) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
+    PrecautionaryCeilingModule,  # PCR (21971046) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
+    DScoreRobustnessModule,  # DSWC (22236741) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
+    AnytimeAlarmModule,    # ACC  (21971041) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
+    CorridorPriorityModule,  # PCS (22665554) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
+    ByproductExchangeModule,  # RC (21971047) — Lean zero-sorry; admitted to bundled index 2026-10-31 by Justin → LIVE
 ]
 
 
