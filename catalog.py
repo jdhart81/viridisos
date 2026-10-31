@@ -18,6 +18,7 @@ from modules.precautionary_ceiling import PrecautionaryCeilingModule
 from modules.dscore_robustness import DScoreRobustnessModule
 from modules.anytime_alarm import AnytimeAlarmModule
 from modules.corridor_priority import CorridorPriorityModule
+from modules.byproduct_exchange import ByproductExchangeModule
 
 # module class + a note on backing status (informational; the resolver is the real gate)
 CATALOG = [
@@ -31,6 +32,7 @@ CATALOG = [
     DScoreRobustnessModule,  # DSWC (22236741) — Lean zero-sorry, not in canon index → PREVIEW
     AnytimeAlarmModule,    # ACC  (21971041) — Lean zero-sorry, canon 'working' → PREVIEW
     CorridorPriorityModule,  # PCS (22665554) — Lean zero-sorry, not in canon index → PREVIEW
+    ByproductExchangeModule,  # RC (21971047) — Lean zero-sorry, canon 'working' → PREVIEW
 ]
 
 

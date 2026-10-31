@@ -17,6 +17,7 @@ its backing DOI is a published, gate-passed theorem (invariant A-1). Regenerate 
 | **dscore-robustness** — does a parcel ranking survive disputed weights | Verification & Certification | D-Score Weight-Charter Certificate (DSWC, Run-132) | `22236741` | 🟡 PREVIEW |
 | **anytime-alarm** — has a monitored 0/1 signal really changed (false alarms ≤ α at every sample size) | Monitoring integrity | Anytime Change Certificate (ACC, Run-129) | `21971041` | 🟡 PREVIEW |
 | **corridor-priority** — which corridor link to protect first (exact pivotal probabilities) | Restoration | Pivotal Corridor Stewardship (PCS, Run-124) | `22665554` | 🟡 PREVIEW |
+| **byproduct-exchange** — two-way industrial-symbiosis reciprocity test | Circular economy | Reciprocity Corridor (RC, Run-128) | `21971047` | 🟡 PREVIEW |
 
 **Why Mutualist is BLOCKED:** SRPT is published (Zenodo 10.5281/zenodo.21327066, Canon record
 `series-symbioticriskpremium`), but publication is not the gate. Canon lists the record as
@@ -76,6 +77,16 @@ refused (A-1). For a graph of at most 16 links that survive **independently**, i
 exact probability that two terminal cores stay connected and each link's pivotal probability,
 which equals the reliability gradient. It then ranks links (optionally per unit cost).
 Correlated failures are not covered.
+**Byproduct Exchange is PREVIEW:** its Lean proofs check (zero sorry, standard axioms;
+`bilateral_benefit_iff_reciprocity_corridor`, `strict_corridor_nonempty_iff_product_condition`,
+`nash_midpoint_unique_maximizer`, `bandwidth_scaling_cannot_restore_feasibility`), but the canon
+catalog lists the package as `working`, not gate-passed, and DOI `21971047` is not in the bundled
+canon index. Previews run; certification is refused (A-1). For two partners that each send the
+other a byproduct stream, with linear per-unit values and costs, it returns the flow-ratio corridor
+c_x/v_x < y/x < v_y/c_y in which both gain, says whether any such exchange exists
+(c_x·c_y < v_x·v_y, at any scale), and gives the unique symmetric Nash split. It is not a mass or
+energy balance and uses no thermodynamic or Intelligence-Bound premise; one-way paid transfers,
+more than two partners and multi-period dynamics are not covered.
 
 ## What LIVE means
 
