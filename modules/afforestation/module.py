@@ -16,18 +16,21 @@ AST_BACKING = Backing(
 
 class AfforestationModule(Module):
     id = "afforestation"
-    name = "Afforestation — cubic optimal-seeding law + site-prep lever"
+    name = "Afforestation — seeding efficiency and the 8× edge-hostility lever"
     line = "Restoration"
-    version = "0.1.0"
+    version = "0.2.0"
     backing = AST_BACKING
 
     def units(self) -> dict:
-        return {"optimal_density": "seedlings/area", "site_prep_multiplier": "×",
-                "seeding_within_ib_ceiling": "bool"}
+        return {"critical_nucleus_n_star": "trees", "barrier_height": "model energy units",
+                "seeding_efficiency": "established canopy per seed (scaled by C)",
+                "efficiency_if_edge_hostility_halved": "established canopy per seed (scaled by C)",
+                "efficiency_scaling_in_drive": "text"}
 
     def compute(self, inputs: dict) -> dict:
         return engine.plan(
-            sigma=float(inputs["sigma"]), delta_mu=float(inputs["delta_mu"]),
-            prep=float(inputs.get("prep", 1.0)), rate=float(inputs.get("rate", 0.0)),
-            rate_max=float(inputs.get("rate_max", 1.0)),
+            sigma=inputs["sigma"],
+            delta_mu=inputs["delta_mu"],
+            shape_factor=inputs.get("shape_factor", 1.0),
+            establishment_constant=inputs.get("establishment_constant", 1.0),
         )

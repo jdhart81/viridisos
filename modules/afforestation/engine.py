@@ -1,41 +1,80 @@
-"""Afforestation kernel — Afforestation Stewardship Theorem (AST, DOI 21168224).
+"""Afforestation kernel — Afforestation Stewardship Theorem (AST, DOI 10.5281/zenodo.21168224).
 
-Headline results: a cubic optimal-seeding law, a factor-8 site-prep lever, and an
-IB seeding-rate ceiling. Complements FNT (restoration): FNT says *where/how* to cluster,
-AST says *how much* to seed and how site-prep moves the optimum.
+What the theorem proves (viridis-canon series/AfforestationStewardship.lean). For a site with
+ecological drive (suitability) Δμ > 0, edge hostility σ > 0 and shape factor a > 0, using the
+classical nucleation model shared with Forest Nucleation (FNT):
 
-  optimal density  d* = k · (prep · Δμ / σ)³       cubic law (site-prep enters cubically → up to ×8)
-  site-prep lever  bounded so prep ∈ [1, 2] ⇒ density multiplier ∈ [1, 8]
-  IB ceiling       seeding rate ≤ rate_max (a Landauer/throughput bound on committing seed-state bits)
+  n*  = (2aσ / (3Δμ))³                 critical nucleus (trees), definition `nStar`
+  ΔG* = 4(aσ)³ / (27Δμ²) = ½·Δμ·n*      nucleation barrier, `homogeneous_limit_recovers_fnt`
+  e   = C·(3Δμ / (2aσ))³ = C / n*       seeding efficiency (established canopy per seed), `eff`
 
-Pure, deterministic. Magnitudes are inputs; the cubic structure is the theorem.
+and two levers on e:
+
+  • scaling the drive Δμ by t multiplies e by t³   (`establishment_efficiency_cubic_in_drive_over_tension`)
+  • halving the edge hostility σ multiplies e by 8 (`site_prep_halving_sigma_eightfolds_efficiency`)
+
+Not used here: the theorem file's `sower_IB_ceiling` only rearranges an assumed premise
+(rate·k_B·T·ln 2 ≤ P·D). The Intelligence Bound is a conjecture, not a proven constraint, so it
+is not a product check. Earlier versions computed density as k·(prep·Δμ/σ)³, which drops the
+theorem's (2a/3)³ factor, and applied that IB ceiling; both are removed.
+
+σ, Δμ, a and C are user inputs that must be justified for the site; nothing here is
+field-validated. Pure, deterministic — recomputable for certification (A-2).
 """
 
 from __future__ import annotations
 
+import math
 
-def optimal_density(sigma: float, delta_mu: float, prep: float = 1.0, k: float = 1.0) -> float:
-    if sigma <= 0 or delta_mu <= 0:
-        raise ValueError("σ and Δμ must be > 0")
-    if not (1.0 <= prep <= 2.0):
-        raise ValueError("site-prep factor must be in [1, 2] (cubic ⇒ up to ×8)")
-    return k * (prep * delta_mu / sigma) ** 3
+DRIVE_CUBIC_EXPONENT = 3      # e(tΔμ) = t³·e(Δμ)
+HALVED_EDGE_MULTIPLIER = 8.0  # e(σ/2) = 8·e(σ)
 
 
-def site_prep_multiplier(prep: float) -> float:
-    """Cubic site-prep lever: prep∈[1,2] → ×[1,8]."""
-    return prep ** 3
+def _positive(name: str, value: float) -> float:
+    v = float(value)
+    if not math.isfinite(v) or v <= 0:
+        raise ValueError(f"{name} must be a finite number > 0")
+    return v
 
 
-def seeding_within_ceiling(rate: float, rate_max: float) -> bool:
-    """IB seeding-rate ceiling (A-informational bound)."""
-    return 0 <= rate <= rate_max
+def critical_nucleus(sigma: float, delta_mu: float, shape_factor: float = 1.0) -> float:
+    """n* = (2aσ / (3Δμ))³."""
+    s = _positive("edge hostility σ", sigma)
+    d = _positive("site suitability Δμ", delta_mu)
+    a = _positive("shape factor a", shape_factor)
+    return (2.0 * a * s / (3.0 * d)) ** 3
 
 
-def plan(sigma: float, delta_mu: float, prep: float, rate: float, rate_max: float) -> dict:
-    d = optimal_density(sigma, delta_mu, prep)
+def barrier_height(sigma: float, delta_mu: float, shape_factor: float = 1.0) -> float:
+    """ΔG* = 4(aσ)³ / (27Δμ²)."""
+    s = _positive("edge hostility σ", sigma)
+    d = _positive("site suitability Δμ", delta_mu)
+    a = _positive("shape factor a", shape_factor)
+    return 4.0 * (a * s) ** 3 / (27.0 * d ** 2)
+
+
+def seeding_efficiency(sigma: float, delta_mu: float, shape_factor: float = 1.0,
+                       establishment_constant: float = 1.0) -> float:
+    """e = C·(3Δμ / (2aσ))³."""
+    s = _positive("edge hostility σ", sigma)
+    d = _positive("site suitability Δμ", delta_mu)
+    a = _positive("shape factor a", shape_factor)
+    c = _positive("establishment constant C", establishment_constant)
+    return c * (3.0 * d / (2.0 * a * s)) ** 3
+
+
+def plan(sigma: float, delta_mu: float, shape_factor: float = 1.0,
+         establishment_constant: float = 1.0) -> dict:
+    n_star = critical_nucleus(sigma, delta_mu, shape_factor)
+    e = seeding_efficiency(sigma, delta_mu, shape_factor, establishment_constant)
     return {
-        "optimal_density": round(d, 9),
-        "site_prep_multiplier": round(site_prep_multiplier(prep), 6),
-        "seeding_within_ib_ceiling": seeding_within_ceiling(rate, rate_max),
+        "critical_nucleus_n_star": round(n_star, 9),
+        "barrier_height": round(barrier_height(sigma, delta_mu, shape_factor), 9),
+        "seeding_efficiency": round(e, 9),
+        "efficiency_if_edge_hostility_halved": round(HALVED_EDGE_MULTIPLIER * e, 9),
+        "efficiency_scaling_in_drive": "cubic: multiplying Δμ by t multiplies efficiency by t³",
+        "claim_boundary": (
+            "Within the nucleation model only. σ, Δμ, the shape factor and the establishment "
+            "constant are user inputs; the result is not field-validated and sets no seeding-rate limit."
+        ),
     }
