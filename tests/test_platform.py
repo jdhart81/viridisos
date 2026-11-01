@@ -13,7 +13,8 @@ from viridis_platform import build_platform, catalog_status
 def test_catalog_registers_all_modules():
     registry, certifier = build_platform()
     ids = {m["id"] for m in registry.list_modules()}
-    assert {"mutualist", "restoration", "afforestation", "harmonization", "carbon-continuity"} <= ids
+    assert {"mutualist", "restoration", "afforestation", "harmonization", "carbon-continuity",
+            "seed-supply", "precautionary-ceiling", "dscore-robustness", "anytime-alarm", "corridor-priority"} <= ids
 
 
 def test_states_reflect_live_canon():
@@ -22,10 +23,21 @@ def test_states_reflect_live_canon():
     assert by_id["restoration"]["state"] == "READY"
     assert by_id["afforestation"]["state"] == "READY"
     assert by_id["harmonization"]["state"] == "READY"
-    # SRPT still pending → BLOCKED (A-1 enforced, not configured)
+    # SRPT is published (21327066) but not Canon-admitted → BLOCKED (A-1 enforced, not configured)
+    assert by_id["mutualist"]["backing_doi"] == "10.5281/zenodo.21327066"
     assert by_id["mutualist"]["state"] == "BLOCKED"
-    # Carbon Continuity is Aristotle-audited but not yet published to canon.
-    assert by_id["carbon-continuity"]["state"] == "BLOCKED"
+    # Carbon Continuity: published (21855690) and re-certified by the engine 2026-10-29.
+    assert by_id["carbon-continuity"]["state"] == "READY"
+    # SSBC (21971057): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    assert by_id["seed-supply"]["state"] == "READY"
+    # PCR (21971046): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    assert by_id["precautionary-ceiling"]["state"] == "READY"
+    # DSWC (22236741): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    assert by_id["dscore-robustness"]["state"] == "READY"
+    # ACC (21971041): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    assert by_id["anytime-alarm"]["state"] == "READY"
+    # PCS (22665554): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    assert by_id["corridor-priority"]["state"] == "READY"
 
 
 def test_blocked_module_cannot_certify_via_platform():
@@ -39,19 +51,20 @@ def test_blocked_module_cannot_certify_via_platform():
         pass
 
 
-def test_carbon_continuity_cannot_certify_before_canon_publication():
-    from runtime.module import CertifyBlocked
+def test_carbon_continuity_certifies_and_recomputes():
     registry, certifier = build_platform()
     module = registry.get("carbon-continuity")
-    try:
-        certifier.issue(
-            module,
-            subject="project-1",
-            inputs={"a": 0.6, "d": 0.8, "r": 0.5, "p": 0.2},
-        )
-        assert False, "expected CertifyBlocked for unpublished Carbon Continuity paper"
-    except CertifyBlocked:
-        pass
+    inputs = {"a": 0.6, "d": 0.8, "r": 0.5, "p": 0.2}
+    cert = certifier.issue(module, subject="project-1", inputs=inputs)
+    assert cert.claim.backing_doi == "10.5281/zenodo.21855690"
+    assert certifier.verify(cert, module, inputs) is True
+    assert certifier.verify(cert, module, {**inputs, "p": 0.1}) is False
+
+
+def test_byproduct_exchange_is_live():
+    # RC (21971047): admitted to the bundled index 2026-10-31 by Justin's decision → LIVE.
+    by_id = {r["id"]: r for r in catalog_status()}
+    assert by_id["byproduct-exchange"]["state"] == "READY"
 
 
 if __name__ == "__main__":

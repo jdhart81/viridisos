@@ -7,6 +7,7 @@ they certify for real — no fixture needed.
 
 from __future__ import annotations
 
+
 import sys
 from pathlib import Path
 
@@ -25,18 +26,55 @@ LIVE = CanonResolver()   # reads the live canon index
 
 # --- Restoration / FNT ------------------------------------------------------
 
-def test_restoration_broadcast_fails_above_threshold():
-    hi = rest_engine.design(sigma=2.0, delta_mu=1.0)   # Θ=2 → RED
-    lo = rest_engine.design(sigma=0.3, delta_mu=1.0)   # Θ=0.3 → GREEN
-    assert hi["recommendation"] == "RED" and hi["broadcast_fails"] is True
-    assert lo["recommendation"] == "GREEN" and lo["broadcast_fails"] is False
+def test_restoration_matches_the_canon_witness():
+    # Canon witness (Δμ, a, σ) = (1, 1, 3/2): r* = 1, n* = 1, ΔG* = 1/2.
+    out = rest_engine.design(sigma=1.5, delta_mu=1.0, shape_factor=1.0)
+    assert out["critical_radius_r_star"] == 1.0
+    assert out["critical_nucleus_n_star"] == 1.0
+    assert out["barrier_height"] == 0.5
+
+
+def test_restoration_n_star_keeps_the_shape_factor():
+    # n* = (2aσ/(3Δμ))³, not (σ/Δμ)³: at σ = Δμ = a = 1 that is 8/27, not 1.
+    out = rest_engine.design(sigma=1.0, delta_mu=1.0)
+    assert abs(out["critical_nucleus_n_star"] - 8 / 27) < 1e-9
+    doubled = rest_engine.design(sigma=1.0, delta_mu=1.0, shape_factor=2.0)
+    assert abs(doubled["critical_nucleus_n_star"] - 64 / 27) < 1e-9   # a enters cubically: ×8
+
+
+def test_restoration_r_star_is_the_barrier_top():
+    sigma, delta_mu, a = 2.0, 0.7, 1.3
+    r_star = rest_engine.critical_radius(sigma, delta_mu, a)
+    G = lambda r: -delta_mu * r ** 3 + a * sigma * r ** 2
+    for k in range(0, 400):
+        r = k * r_star / 100.0
+        assert G(r) <= G(r_star) + 1e-12
+    assert abs(G(r_star) - rest_engine.barrier_height(sigma, delta_mu, a)) < 1e-12
+
+
+def test_restoration_go_no_go_compares_cluster_to_n_star():
+    n_star = rest_engine.critical_nucleus(3.0, 1.0)          # (2·3/3)³ = 8
+    assert abs(n_star - 8.0) < 1e-9
+    assert rest_engine.design(3.0, 1.0, cluster_size=7.9)["go_no_go"] == "NO_GO"
+    assert rest_engine.design(3.0, 1.0, cluster_size=8.0)["go_no_go"] == "GO"
+    assert "go_no_go" not in rest_engine.design(3.0, 1.0)
+    assert "recommendation" not in rest_engine.design(3.0, 1.0)   # old Θ cut-offs are gone
+
+
+def test_restoration_rejects_invalid_inputs():
+    for args in ((0.0, 1.0), (1.0, 0.0), (1.0, -1.0), (float("nan"), 1.0)):
+        try:
+            rest_engine.design(*args)
+            assert False, f"expected invalid input to fail: {args}"
+        except ValueError:
+            pass
 
 
 def test_restoration_certifies_live_against_real_canon():
     m = RestorationModule(resolver=LIVE)
     assert m.state().value == "READY"           # FNT DOI 20982979 is in the canon index
     c = Certifier(resolver=LIVE)
-    inputs = {"sigma": 1.5, "delta_mu": 1.0}
+    inputs = {"sigma": 1.5, "delta_mu": 1.0, "cluster_size": 2.0}
     cert = c.issue(m, subject="site-9", inputs=inputs)
     assert cert.claim.backing_doi == "10.5281/zenodo.20982979"
     assert c.verify(cert, m, inputs) is True
@@ -44,39 +82,112 @@ def test_restoration_certifies_live_against_real_canon():
 
 # --- Afforestation / AST ----------------------------------------------------
 
-def test_afforestation_site_prep_cubic_lever():
+def _raises(exc, fn, *a, **k):
+    try:
+        fn(*a, **k)
+    except exc:
+        return True
+    raise AssertionError(f"expected {exc.__name__}")
+
+
+def test_afforestation_matches_ast_definitions():
+    """A1/A2: n*, barrier and efficiency are the theorem's definitions; canon witness a=σ=Δμ=C=1."""
+    from modules.afforestation import engine as ast
     m = AfforestationModule(resolver=LIVE)
-    out = m.preview({"sigma": 1.0, "delta_mu": 1.0, "prep": 2.0, "rate": 0.5, "rate_max": 1.0})
-    assert out.values["site_prep_multiplier"] == 8.0     # prep=2 ⇒ ×8 (cubic)
-    assert out.values["seeding_within_ib_ceiling"] is True
+    out = m.preview({"sigma": 1.0, "delta_mu": 1.0}).values
+    assert abs(out["critical_nucleus_n_star"] - (2 / 3) ** 3) < 1e-9          # 8/27, not 1
+    assert abs(out["barrier_height"] - 4 / 27) < 1e-9
+    assert abs(out["seeding_efficiency"] - (3 / 2) ** 3) < 1e-9               # 27/8 = C / n*
+    assert abs(out["seeding_efficiency"] * out["critical_nucleus_n_star"] - 1.0) < 1e-9
+    for a, s, d in [(1.0, 1.0, 1.0), (2.0, 0.7, 1.3), (0.5, 3.0, 0.4)]:          # ΔG* = ½·Δμ·n*
+        assert abs(ast.barrier_height(s, d, a) - 0.5 * d * ast.critical_nucleus(s, d, a)) < 1e-9
+
+
+def test_afforestation_proven_levers():
+    """A3: halving σ gives exactly ×8; scaling Δμ by t gives t³."""
+    from modules.afforestation import engine as ast
+    for a, s, d, c in [(1.0, 1.0, 1.0, 1.0), (1.7, 0.9, 2.2, 3.0)]:
+        e = ast.seeding_efficiency(s, d, a, c)
+        assert abs(ast.seeding_efficiency(s / 2, d, a, c) - 8 * e) < 1e-9 * max(1, e)
+        for t in (0.5, 2.0, 3.0):
+            assert abs(ast.seeding_efficiency(s, t * d, a, c) - t ** 3 * e) < 1e-9 * max(1, t ** 3 * e)
+    out = AfforestationModule(resolver=LIVE).preview({"sigma": 2.0, "delta_mu": 1.0}).values
+    assert abs(out["efficiency_if_edge_hostility_halved"] - 8 * out["seeding_efficiency"]) < 1e-9
+
+
+def test_afforestation_has_no_ib_ceiling_and_rejects_bad_inputs():
+    """A4: no Intelligence Bound check in outputs; invalid inputs raise."""
+    from modules.afforestation import engine as ast
+    out = AfforestationModule(resolver=LIVE).preview({"sigma": 1.0, "delta_mu": 1.0}).values
+    assert not any("ib" in k.lower() or "ceiling" in k.lower() for k in out)
+    for bad in [dict(sigma=0, delta_mu=1), dict(sigma=1, delta_mu=-1), dict(sigma=1, delta_mu=float("nan"))]:
+        _raises(ValueError, ast.plan, **bad)
+    _raises(ValueError, ast.plan, sigma=1, delta_mu=1, establishment_constant=0)
 
 
 def test_afforestation_certifies_live():
+    """A5: certificate recomputes; tampered input fails verification."""
     m = AfforestationModule(resolver=LIVE)
     assert m.certify_ready() is True
     c = Certifier(resolver=LIVE)
-    inputs = {"sigma": 1.0, "delta_mu": 1.2, "prep": 1.5, "rate": 0.2, "rate_max": 1.0}
+    inputs = {"sigma": 1.0, "delta_mu": 1.2, "shape_factor": 1.5, "establishment_constant": 2.0}
     cert = c.issue(m, subject="stand-3", inputs=inputs)
     assert c.verify(cert, m, inputs) is True
+    assert c.verify(cert, m, {**inputs, "sigma": 0.5}) is False
 
 
 # --- Harmonization / GHT ----------------------------------------------------
 
-def test_harmonization_clearing_price_and_wu_wei_dividend():
-    out = harm_engine.harmonize(marginal_costs=[1.0, 3.0, 2.0], command_overhead=5.0,
-                                bandwidth=0.5, ib_bound=1.0)
-    assert out["shadow_price"] == 3.0
-    assert out["decentralization_cheaper"] is True        # 3 stewards: central 15 > 5 decentralized
-    assert out["coordination_within_ib"] is True
+def test_harmonization_matches_the_canon_witness():
+    # Canon non-vacuity instance: a = b = (1, 1), X = 0 gives λ* = 1, x* = (0, 0), J(x*) = 1.
+    out = harm_engine.harmonize(curvatures=[1.0, 1.0], ideals=[1.0, 1.0], target=0.0)
+    assert out["shadow_price"] == 1.0
+    assert out["allocation"] == [0.0, 0.0]
+    assert out["market_clears"] is True
+    assert out["total_cost"] == 1.0
+
+
+def test_harmonization_clears_and_beats_other_feasible_allocations():
+    a, b, X = [1.0, 2.0, 4.0], [10.0, 6.0, 3.0], 12.0
+    out = harm_engine.harmonize(curvatures=a, ideals=b, target=X)
+    # λ* = (19 − 12) / (1 + 0.5 + 0.25) = 4
+    assert out["shadow_price"] == 4.0
+    assert out["allocation"] == [6.0, 4.0, 2.0]
+    assert out["market_clears"] is True
+    best = out["total_cost"]
+    for y in ([4.0, 4.0, 4.0], [6.0, 3.0, 3.0], [12.0, 0.0, 0.0], [7.0, 4.0, 1.0]):
+        assert abs(sum(y) - X) < 1e-12
+        assert harm_engine.total_cost(a, b, y) >= best
+
+
+def test_harmonization_wrong_price_does_not_clear():
+    a, b = [1.0, 1.0], [1.0, 1.0]
+    alloc = [harm_engine.best_response(ai, bi, 0.0) for ai, bi in zip(a, b)]
+    assert sum(alloc) != 0.0
+
+
+def test_harmonization_rejects_invalid_inputs():
+    for kwargs in (
+        {"curvatures": [], "ideals": [], "target": 0.0},
+        {"curvatures": [1.0, 0.0], "ideals": [1.0, 1.0], "target": 0.0},
+        {"curvatures": [1.0], "ideals": [1.0, 2.0], "target": 0.0},
+        {"curvatures": [1.0], "ideals": [float("nan")], "target": 0.0},
+    ):
+        try:
+            harm_engine.harmonize(**kwargs)
+            assert False, f"expected invalid input to fail: {kwargs}"
+        except ValueError:
+            pass
 
 
 def test_harmonization_certifies_live():
     m = HarmonizationModule(resolver=LIVE)
     assert m.certify_ready() is True
     c = Certifier(resolver=LIVE)
-    inputs = {"marginal_costs": [1.0, 2.5], "command_overhead": 4.0, "bandwidth": 0.3, "ib_bound": 1.0}
+    inputs = {"curvatures": [1.0, 2.5], "ideals": [3.0, 1.0], "target": 2.0}
     cert = c.issue(m, subject="region-2", inputs=inputs)
     assert c.verify(cert, m, inputs) is True
+    assert c.verify(cert, m, {**inputs, "target": 2.5}) is False
 
 
 if __name__ == "__main__":

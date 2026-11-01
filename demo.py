@@ -27,7 +27,7 @@ def main() -> None:
 
     # LIVE module: Restoration (backed by published FNT).
     restoration = registry.get("restoration")
-    inputs = {"sigma": 1.5, "delta_mu": 1.0}     # Θ = 1.5 > 1 → cluster (RED)
+    inputs = {"sigma": 1.5, "delta_mu": 1.0, "cluster_size": 2.0}  # n* = 1 → GO
     cert = certifier.issue(restoration, subject="parcel-DEMO", inputs=inputs)
     print("\n== Self-rooted development certificate (Restoration / FNT) ==")
     print(json.dumps(cert.to_dict(), indent=2, default=str))
@@ -35,13 +35,13 @@ def main() -> None:
     print(f"\nLocal recomputation:      {'VALID ✅' if ok else 'INVALID ❌'}")
     print(f"Tampered inputs verify:   {'VALID' if certifier.verify(cert, restoration, {**inputs, 'sigma': 0.1}) else 'INVALID ✅'}")
 
-    # BLOCKED module: Mutualist (SRPT pending) — A-1 refuses.
+    # BLOCKED module: Mutualist (SRPT not Canon-admitted) — A-1 refuses.
     mutualist = registry.get("mutualist")
     try:
         certifier.issue(mutualist, subject="p", inputs={"rho": 1, "sigma": 1e-20, "sigma_tot": 2e-20, "r_c": -0.1})
         print("\nMutualist certified (unexpected!)")
     except CertifyBlocked:
-        print("\nMutualist refused to certify ✅ — backing theorem (SRPT) not yet published (A-1).")
+        print("\nMutualist refused to certify ✅ — backing theorem (SRPT) not Canon-admitted (A-1).")
 
 
 if __name__ == "__main__":

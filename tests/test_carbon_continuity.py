@@ -9,6 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from modules.carbon_continuity import CarbonContinuityModule
+from runtime.canon_resolver import CanonResolver
 from modules.carbon_continuity.engine import evaluate_threshold
 from runtime.module import CertifyBlocked, ModuleState
 
@@ -73,15 +74,23 @@ def test_invalid_domain_is_rejected():
             pass
 
 
-def test_pending_canon_entry_allows_preview_but_blocks_certification():
+def test_published_backing_is_ready_and_certifies():
     module = CarbonContinuityModule()
+    assert module.backing.doi == "10.5281/zenodo.21855690"
+    assert module.state() == ModuleState.READY
+    output = module.certifiable_output({"a": 0.6, "d": 0.8, "r": 0.5, "p": 0.2})
+    assert output.values["threshold_met"] is True
+
+
+def test_unresolvable_backing_still_blocks_certification():
+    # A-1/A-3: with a canon that does not list the DOI, previews run but certification fails closed.
+    module = CarbonContinuityModule(resolver=CanonResolver(entries={}))
     assert module.state() == ModuleState.BLOCKED
     output = module.preview({"a": 0.6, "d": 0.8, "r": 0.5, "p": 0.2})
-    assert output.module_id == "carbon-continuity"
     assert output.values["threshold_met"] is True
     try:
         module.certifiable_output({"a": 0.6, "d": 0.8, "r": 0.5, "p": 0.2})
-        assert False, "expected pending paper to block certification"
+        assert False, "expected an unresolvable backing DOI to block certification"
     except CertifyBlocked:
         pass
 

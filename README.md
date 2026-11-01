@@ -19,6 +19,17 @@ not this source tree. A local candidate remains V0 `PRE_PUBLIC`; it becomes V1
 `PUBLIC_FOUNDATION` only after the exact standalone repository and release are
 authorized, publicly readable, and independently re-cloned and tested.
 
+## Status, AI use and citation
+
+Reference software, not peer reviewed. Modules carry `empirical_validation: NOT_VALIDATED`
+from the canon; a certificate here checks a computation against its DOI-backed Lean result, not
+an ecological outcome. Much of the code was written with AI coding assistants (mainly Claude by
+Anthropic, some OpenAI Codex), as the commit history shows; Justin D. Hart (Viridis LLC, ORCID
+[0009-0008-3082-2482](https://orcid.org/0009-0008-3082-2482)) reviews changes and is the accountable
+author. Code is Apache-2.0 ([LICENSE](LICENSE)); documentation terms are in
+[DOCUMENTATION_LICENSE.md](DOCUMENTATION_LICENSE.md). Cite with [CITATION.cff](CITATION.cff). This
+repository has no Zenodo record yet.
+
 ## Run
 
 ```bash
@@ -37,10 +48,15 @@ certificates are self-rooted and are not authoritative Viridis certificates.
 
 ## Modules (see PLATFORM_CATALOG.md)
 
-Five modules, each backed by a canon theorem. Resolved against the live canon — LIVE only if the
+Eleven modules, each backed by a canon theorem. Resolved against the live canon — LIVE only if the
 backing theorem is published (A-1): **restoration** (FNT) · **afforestation** (AST) · **harmonization**
-(GHT) are LIVE; **mutualist** (SRPT) and **carbon-continuity** (CCAW) are BLOCKED until their papers
-publish. Carbon Continuity previews are available for bounded commercial discovery, but they do not
+(GHT) and **carbon-continuity** (CCAW) are LIVE, as are **seed-supply** (SSBC), **precautionary-ceiling**
+(PCR), **dscore-robustness** (DSWC), **anytime-alarm** (ACC), **corridor-priority** (PCS) and
+**byproduct-exchange** (RC), admitted to the bundled canon index by Justin's decision on 2026-10-31
+(zero-sorry Lean; canon still lists them as `working`); **mutualist** (SRPT, 21327066) stays BLOCKED: its
+paper is published, but the record is not Canon-admitted and its key results assume the
+Thermodynamic Uncertainty Relation (see `PLATFORM_CATALOG.md`). Carbon Continuity is the first module re-certified by the current research engine
+(2026-10-29, statement `P2.CarbonContinuity`, PROVEN for the mathematics only). Its outputs do not
 produce credit quantities, project ratings, insurance prices, or underwriting decisions.
 
 ## What's here
@@ -49,7 +65,7 @@ produce credit quantities, project ratings, insurance prices, or underwriting de
 runtime/         L2 — module contract (module.py), registry, provenance, canon resolver
 certification/   L3 — claim, attestation (dev signer), certifier (issue+verify), registry, standard
 modules/mutualist/  reference module wrapping the SRPT (Run-093) kernel
-modules/carbon_continuity/  preview-only wildfire recovery threshold diagnostic
+modules/carbon_continuity/  wildfire recovery threshold diagnostic (re-certified 2026-10-29)
 api/             L4 seam — service + pure dispatch + stdlib HTTP wrapper
 tests/           core tests; every invariant has a failing-if-violated test
 demo.py          full-flow demonstration
@@ -91,6 +107,32 @@ do not count as outside adoption.
 
 That's it — the runtime handles provenance, the certifier handles the moat, the API exposes it.
 Next modules by product-tree priority: **Tempo** (Run-060), **Restoration/Nucleation** (Run-061).
+
+## Part of the Viridis open-source commons
+
+The mathematics behind each module lives in [Viridis Canon](https://github.com/jdhart81/viridis-canon), and [ProofLens](https://github.com/jdhart81/prooflens) explains what a Lean statement says before you read the proof.
+
+This project is one of a connected set of open tools from Viridis. Each stands on its own; together they run from field evidence to checked decisions.
+
+**Conservation commons**
+
+- [VergeCommon](https://github.com/jdhart81/verge-common): community conservation co-ops with consent-based land mapping, field evidence and group decisions
+- [Dendritic Forest Management (DFM)](https://github.com/jdhart81/hdfm-framework): compare forest-retention options around roads and waterways, with traceable inputs and portable reports
+- [Global Soil Intelligence Project (GSIP)](https://github.com/global-soil-intelligence/gsip): contribute soil observations and explore open soil maps with explicit uncertainty
+
+**Verifiable science**
+
+- [Viridis Canon](https://github.com/jdhart81/viridis-canon): machine-checked Lean 4 mathematics for ecological decisions, with a DOI for every result
+- **ViridisOS** (this repository): open reference runtime for DOI-backed decision modules and recomputable results
+- [Viridis Research](https://github.com/jdhart81/viridis-research): the nightly public research record, each claim labeled by what a verifier actually checked
+- [ProofLens](https://github.com/jdhart81/prooflens): see what a Lean statement means before reading the proof
+
+**Agent tools**
+
+- [Viridis Agent Fleet](https://github.com/jdhart81/viridis-agent-fleet): open-source MCP agents with deterministic, auditable cores
+- [EnergyAI MCP](https://github.com/jdhart81/energyai-mcp): energy-planning estimates and incentive sources for AI agents
+
+Browse every project on the [Viridis profile](https://github.com/jdhart81). If this one is useful to you, a star helps other people find it.
 
 ## API
 

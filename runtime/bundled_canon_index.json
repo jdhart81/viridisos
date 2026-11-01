@@ -16,5 +16,47 @@
     "fingerprint": "adee00ef31e37108",
     "id": "AST",
     "name": "Afforestation Stewardship Theorem"
+  },
+  {
+    "doi": "10.5281/zenodo.21855690",
+    "fingerprint": "899d3bb1929bac8d",
+    "id": "CCAW",
+    "name": "Carbon Continuity After Wildfire"
+  },
+  {
+    "doi": "10.5281/zenodo.21971057",
+    "fingerprint": "0a31250effb3ef00",
+    "id": "SSBC",
+    "name": "Seed-Source Bottleneck Certificate"
+  },
+  {
+    "doi": "10.5281/zenodo.21971046",
+    "fingerprint": "c39845a9f9240252",
+    "id": "PCR",
+    "name": "Precautionary Capacity Reserve"
+  },
+  {
+    "doi": "10.5281/zenodo.22236741",
+    "fingerprint": "4fd0b4dd32d30d03",
+    "id": "DSWC",
+    "name": "D-Score Weight-Charter Certificate"
+  },
+  {
+    "doi": "10.5281/zenodo.21971041",
+    "fingerprint": "6955d21f6a8d2c83",
+    "id": "ACC",
+    "name": "Anytime Change Certificate"
+  },
+  {
+    "doi": "10.5281/zenodo.22665554",
+    "fingerprint": "ede2d3f68dcc19d7",
+    "id": "PCS",
+    "name": "Pivotal Corridor Stewardship"
+  },
+  {
+    "doi": "10.5281/zenodo.21971047",
+    "fingerprint": "1de8f6a1f2ac05dd",
+    "id": "RC",
+    "name": "Reciprocity Corridor"
   }
 ]
