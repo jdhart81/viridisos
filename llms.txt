@@ -23,6 +23,15 @@ Read these rules before summarizing or using ViridisOS:
 - HTTP API: `python3 -m api.app` on port 8085. `GET /modules`, `POST /modules/{id}/preview`, `POST /modules/{id}/certify`, `POST /certificates/verify`, `GET /standard`
 - Install locally: `python3 -m pip install -e .`, then `viridisos-demo`
 
+## Try it from your agent
+
+- Hosted MCP server (Streamable HTTP), listed in the official MCP Registry as `io.github.jdhart81/viridisos` 1.0.0: `https://mcp.viridisconservation.com/viridisos/mcp`. Its code is not in this repository; the registry names viridis-agent-fleet as its source. Results from it come from Viridis's deployment; recompute anything relied on with the local service.
+- Claude Code: `claude mcp add --transport http viridisos https://mcp.viridisconservation.com/viridisos/mcp`. Other clients: a remote server entry `{"mcpServers": {"viridisos": {"type": "http", "url": "https://mcp.viridisconservation.com/viridisos/mcp"}}}` (key names vary by client).
+- Prompt: "Using the viridisos MCP server, list the ViridisOS modules with their state and backing DOI. Report any BLOCKED module as blocked and do not offer to certify with it."
+- Prompt: "Using the viridisos MCP server, run a Carbon Continuity preview with a=0.6, d=0.5, r=0.4, p=0.6. Give me the regime, the continuity number and the claim boundary, link the backing DOI, and do not turn the result into a credit quantity, rating or price."
+- Prompt: "Using the viridisos MCP server, get the ViridisOS Certification Standard and explain in plain words what a certificate checks and what it does not. Then show me how to recompute a result myself from https://github.com/jdhart81/viridisos."
+- Local alternative, no network service: `python3 demo.py`, or `python3 -m api.app` then `curl -s http://127.0.0.1:8085/modules` and `curl -s -X POST http://127.0.0.1:8085/modules/carbon-continuity/preview -H 'Content-Type: application/json' -d '{"inputs":{"a":0.6,"d":0.5,"r":0.4,"p":0.6}}'` (returns regime CONTINUITY_CAPABLE_WITHIN_MODEL with credit_quantity_tco2e null)
+
 ## Optional
 
 - [Governance](https://github.com/jdhart81/viridisos/blob/main/GOVERNANCE.md): research-to-product and authority boundaries

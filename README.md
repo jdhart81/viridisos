@@ -46,6 +46,58 @@ production trust-root keys and issuance, certification-mark authorization,
 settlement/toll code, customer systems, and deployment assets. Development
 certificates are self-rooted and are not authoritative Viridis certificates.
 
+## Try it from your agent
+
+**Hosted MCP server.** Viridis runs a remote MCP server, listed in the official MCP Registry as
+`io.github.jdhart81/viridisos` (version 1.0.0, Streamable HTTP). Its code is not in this
+repository; the registry entry names
+[viridis-agent-fleet](https://github.com/jdhart81/viridis-agent-fleet) as its source. The
+commands in this part need that endpoint to be reachable.
+
+Claude Code:
+
+```bash
+claude mcp add --transport http viridisos https://mcp.viridisconservation.com/viridisos/mcp
+```
+
+Other MCP clients that take a JSON list of remote servers (key names vary by client):
+
+```json
+{
+  "mcpServers": {
+    "viridisos": {
+      "type": "http",
+      "url": "https://mcp.viridisconservation.com/viridisos/mcp"
+    }
+  }
+}
+```
+
+Prompts to paste once it is connected. Ask the agent to use whichever tools the server lists for
+each step.
+
+1. `Using the viridisos MCP server, list the ViridisOS modules with their state and backing DOI. Report any BLOCKED module as blocked and do not offer to certify with it.`
+2. `Using the viridisos MCP server, run a Carbon Continuity preview with a=0.6, d=0.5, r=0.4, p=0.6. Give me the regime, the continuity number and the claim boundary, link the backing DOI, and do not turn the result into a credit quantity, rating or price.`
+3. `Using the viridisos MCP server, get the ViridisOS Certification Standard and explain in plain words what a certificate checks and what it does not. Then show me how to recompute a result myself from https://github.com/jdhart81/viridisos.`
+
+Results from the hosted server come from Viridis's deployment, not from your checkout.
+Recompute anything you rely on locally.
+
+**Local alternative.** No account or network service needed beyond the clone:
+
+```bash
+git clone https://github.com/jdhart81/viridisos.git && cd viridisos
+python3 demo.py        # catalog, certify, verify; the BLOCKED mutualist module is refused
+python3 -m api.app     # HTTP API on :8085, then in another shell:
+curl -s http://127.0.0.1:8085/modules
+curl -s -X POST http://127.0.0.1:8085/modules/carbon-continuity/preview \
+  -H 'Content-Type: application/json' -d '{"inputs":{"a":0.6,"d":0.5,"r":0.4,"p":0.6}}'
+```
+
+The preview returns `"regime": "CONTINUITY_CAPABLE_WITHIN_MODEL"`, `"credit_quantity_tco2e": null`
+and `"market_claim_status": "MODEL_OUTPUT_ONLY"`. It is a preview, not a certificate, and not a
+credit quantity. Certificates from a local checkout are self-rooted development certificates.
+
 ## Modules (see PLATFORM_CATALOG.md)
 
 Eleven modules, each backed by a canon theorem. Resolved against the live canon — LIVE only if the
