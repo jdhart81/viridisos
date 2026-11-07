@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "vergecommon": {
+      "type": "http",
+      "url": "https://vergecommon.com/mcp"
+    },
+    "viridisos": {
+      "type": "http",
+      "url": "https://mcp.viridisconservation.com/viridisos/mcp"
+    }
+  }
+}
