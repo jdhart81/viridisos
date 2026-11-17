@@ -27,3 +27,23 @@ python3 tools/sync_canon_kernels.py \
 Review the generated diff and any binding changes before release. Canon
 publication and proof status do not establish empirical accuracy, ecological
 outcomes, legal compliance, market acceptance, or commercial readiness.
+
+## Auto-intake kernels (GET /auto-kernels)
+
+Owner decision 2026-11-17: a statement the science engine proves that fits a Viridis
+Conservation service is entered into the canon as a decision kernel and goes live automatically
+once its checks pass (viridis-canon `docs/auto_intake/README.md`). After each canon merge the
+engine runs
+
+```
+python3 tools/refresh_from_canon.py --canon <viridis-canon checkout at main>
+```
+
+which rewrites `runtime/canon_auto_kernels.json` from the canon's `os/research_statements.json`.
+`GET /auto-kernels` serves that list: each kernel's status (LIVE, ENTERED, ROLLED_BACK), statement,
+run, DOI, boundary, what is proven and what is assumed, and its one-step rollback. The tool refuses
+to write a list that disagrees with the canon's live list (`os/core.json` and `os/admissions.json`),
+and no kernel here carries certification authority. `tests/test_canon_auto_kernels.py` holds R1-R3.
+
+The catalog registry above (`runtime/canon_kernel_registry.json`) is not refreshed by this step:
+it is pinned to the 120-record catalog its bindings were reviewed against.
