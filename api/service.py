@@ -7,6 +7,7 @@ pure function (method, path, body) -> (status, dict) so it is testable without s
 Endpoints:
   GET  /modules
   GET  /research-kernels
+  GET  /auto-kernels              kernels the canon entered from PROVEN engine results
   POST /modules/{id}/preview      {inputs}
   POST /modules/{id}/certify      {subject, inputs}
   POST /certificates/verify       {certificate_id, module_id, inputs}
@@ -20,6 +21,7 @@ from typing import Optional
 from runtime.module import CertifyBlocked
 from runtime.registry import ModuleRegistry
 from runtime.canon_kernel_registry import CanonKernelRegistry
+from runtime.canon_auto_kernels import CanonAutoKernels
 from certification.certifier import Certifier
 from certification.standard import STANDARD
 
@@ -54,10 +56,12 @@ def share_block(kind: str, module_id: str, certificate_id: str = "") -> dict:
 
 class ViridisOSService:
     def __init__(self, registry: ModuleRegistry, certifier: Optional[Certifier] = None,
-                 research_registry: Optional[CanonKernelRegistry] = None):
+                 research_registry: Optional[CanonKernelRegistry] = None,
+                 auto_kernels: Optional[CanonAutoKernels] = None):
         self.registry = registry
         self.certifier = certifier or Certifier()
         self.research_registry = research_registry or CanonKernelRegistry()
+        self.auto_kernels = auto_kernels or CanonAutoKernels()
         self._issued = {}   # certificate_id -> Certificate (for verify-by-id)
 
     def list_modules(self) -> dict:
@@ -65,6 +69,9 @@ class ViridisOSService:
 
     def list_research_kernels(self) -> dict:
         return self.research_registry.as_dict()
+
+    def list_auto_kernels(self) -> dict:
+        return self.auto_kernels.as_dict()
 
     def preview(self, module_id: str, inputs: dict) -> dict:
         module = self.registry.get(module_id)
@@ -112,6 +119,9 @@ def dispatch(service: ViridisOSService, method: str, path: str, body: Optional[d
 
         if method == "GET" and path == "/research-kernels":
             return 200, service.list_research_kernels()
+
+        if method == "GET" and path == "/auto-kernels":
+            return 200, service.list_auto_kernels()
 
         if method == "GET" and path == "/standard":
             return 200, service.standard()

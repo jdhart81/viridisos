@@ -1,0 +1,20 @@
+{
+  "standard": "VOS-CANON-AUTO-KERNELS-1",
+  "source": {
+    "repository": "https://github.com/jdhart81/viridis-canon",
+    "canon_commit": "18791f68f8d451fb420dad99cb5494acc3217d48",
+    "ledger": "os/research_statements.json",
+    "policy_standard": "VOS-AUTO-INTAKE-1"
+  },
+  "policy": {
+    "go_live": true,
+    "go_live_decision": "Owner decision 2026-11-17 (Justin Hart): new kernels go live automatically once their checks pass. Set go_live to false to stop new kernels going live; entries then wait as callable code outside the live list.",
+    "automatic_certification_authority": false
+  },
+  "stats": {
+    "kernels": 0,
+    "live": 0,
+    "rolled_back": 0
+  },
+  "kernels": []
+}
