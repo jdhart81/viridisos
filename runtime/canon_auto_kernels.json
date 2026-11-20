@@ -2,7 +2,7 @@
   "standard": "VOS-CANON-AUTO-KERNELS-1",
   "source": {
     "repository": "https://github.com/jdhart81/viridis-canon",
-    "canon_commit": "18791f68f8d451fb420dad99cb5494acc3217d48",
+    "canon_commit": "c84d6ad99c1ff9f3239ad53afd7c3c5454baf974",
     "ledger": "os/research_statements.json",
     "policy_standard": "VOS-AUTO-INTAKE-1"
   },
