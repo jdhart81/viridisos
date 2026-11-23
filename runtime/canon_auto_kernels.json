@@ -2,7 +2,7 @@
   "standard": "VOS-CANON-AUTO-KERNELS-1",
   "source": {
     "repository": "https://github.com/jdhart81/viridis-canon",
-    "canon_commit": "ff7334b1f810c67330556166cb6462929e08a9c7",
+    "canon_commit": "a76855915ee854461aa693ecdc7161d0b4189e48",
     "ledger": "os/research_statements.json",
     "policy_standard": "VOS-AUTO-INTAKE-1"
   },
@@ -12,9 +12,34 @@
     "automatic_certification_authority": false
   },
   "stats": {
-    "kernels": 0,
-    "live": 0,
+    "kernels": 1,
+    "live": 1,
     "rolled_back": 0
   },
-  "kernels": []
+  "kernels": [
+    {
+      "function_id": "loop-mass-balance",
+      "name": "Loop mass balance: virgin input and secondary stock in a one-material recovery loop",
+      "status": "LIVE",
+      "live": true,
+      "statement": "P3.LoopMassBalance",
+      "class": "A",
+      "strengthens": null,
+      "decision_family": "governance-coordination",
+      "doi": "10.5281/zenodo.24281827",
+      "research_run": "runs/2026-11-15_P3",
+      "statement_sha256": "f00634594133f7edfb49f21bf30203d259cc8dfa7e62a40326bff1da1ea31ac7",
+      "manifest_path": "research/loop-mass-balance/function.json",
+      "manifest_sha256": "251ba7c3c201c07a3fde76ae2fc9a957242afef91daa3d6a078d59cd461dc6ac",
+      "summary": "Computes how much virgin material a single-material recovery loop needs per period and over a planning horizon, the secondary stock it settles towards, and the stock path from a given starting stock.",
+      "boundary": "Exact arithmetic of the one-material loop model only. It does not establish any real recovery rate, retention rate or demand, that recovered material is available in the stock when it is drawn (the model does not cap recovery by the stock), quality losses, rebound demand, or prices; it is not empirical validation, Viridis review, certification, a credit, or a registry determination.",
+      "proven": "For demand D >= 0, recovery fraction r in [0,1] and stock retention rho in [0,1), the virgin input per period D(1 - r) lies between 0 and D; the secondary stock gap to r D / (1 - rho) shrinks as rho^t and the stock converges to that level; the virgin total over T periods is T D (1 - r); and for D > 0, T > 0 that total strictly falls as r rises.",
+      "assumed": "One material; demand, recovery fraction and retention are constant over the horizon; recovery is not capped by the stock actually available; no quality losses, rebound demand or price effects; the numbers supplied are the real ones.",
+      "empirical_validation": "NOT_VALIDATED",
+      "live_at": "2026-11-21T01:22:57Z",
+      "rolled_back_at": null,
+      "rollback": "python3 -m canon_core auto-intake rollback --function loop-mass-balance",
+      "certification_authority": false
+    }
+  ]
 }
