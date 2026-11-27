@@ -2,7 +2,7 @@
   "standard": "VOS-CANON-AUTO-KERNELS-1",
   "source": {
     "repository": "https://github.com/jdhart81/viridis-canon",
-    "canon_commit": "0fcc79afcd5ae148ff27670e89e15a3ce63e0e99",
+    "canon_commit": "4949050412967c0c4cce6189c95c4e4bad4c9bc1",
     "ledger": "os/research_statements.json",
     "policy_standard": "VOS-AUTO-INTAKE-1"
   },
@@ -12,11 +12,35 @@
     "automatic_certification_authority": false
   },
   "stats": {
-    "kernels": 1,
-    "live": 1,
+    "kernels": 2,
+    "live": 2,
     "rolled_back": 0
   },
   "kernels": [
+    {
+      "function_id": "cascaded-recovery-virgin-share",
+      "name": "Cascaded recovery: virgin share after several recovery stages",
+      "status": "LIVE",
+      "live": true,
+      "statement": "P3.CascadedRecovery",
+      "class": "B",
+      "strengthens": "loop-mass-balance",
+      "decision_family": "governance-coordination",
+      "doi": "10.5281/zenodo.24456101",
+      "research_run": "runs/2026-11-16_P3",
+      "statement_sha256": "a4e3f3c269b81a1d5dacde1535f0112654d5d4c5203e9a01a444bc4edcfbb115",
+      "manifest_path": "research/cascaded-recovery-virgin-share/function.json",
+      "manifest_sha256": "b6e0a7f507518b5a8d02ef1154798f15f01683adf0d58d34a681a5b9f1a0b1aa",
+      "summary": "Computes the share of a material stream that must still come from virgin material after a series of recovery stages, its proven lower bound, and how much the cascade beats the best single stage.",
+      "boundary": "Exact arithmetic of the series-stage model only. It does not establish any real recovery rate, losses between stages, quality downgrades, rebound demand, or that the stages are independent; it is not empirical validation, Viridis review, certification, a credit, or a registry determination.",
+      "proven": "For recovery fractions in [0,1], the virgin share is the product of (1 - r), lies in [0,1], is at least (1 - max r)^n, is never above the best single stage, and is strictly below it when another stage recovers anything.",
+      "assumed": "Stages act in series on one material, each recovering a fixed fraction of what reaches it; no losses between stages, downgrading or rebound demand; the fractions supplied are the real ones.",
+      "empirical_validation": "NOT_VALIDATED",
+      "live_at": "2026-11-25T03:47:48Z",
+      "rolled_back_at": null,
+      "rollback": "python3 -m canon_core auto-intake rollback --function cascaded-recovery-virgin-share",
+      "certification_authority": false
+    },
     {
       "function_id": "loop-mass-balance",
       "name": "Loop mass balance: virgin input and secondary stock in a one-material recovery loop",
